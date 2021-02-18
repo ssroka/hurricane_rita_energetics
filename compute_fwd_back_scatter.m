@@ -33,7 +33,9 @@ sfs_radl = sfs_radl(ind,:);
 sfs_tang = sfs_tang(ind,:);
 sfs_vert = sfs_vert(ind,:);
 
-clear Pro_red Tau_red Strain_red Leo_red Rey_red Cro_red
+clear Pro_red Tau_red Strain_red Leo_red Rey_red Cro_red  
+clear term1_red term3_red term5_red term7_red term9_red
+clear term2_red term4_red term6_red term8_red term10_red
 for j = 1:3
     for k= 1:3
         Pro_red(:,:,j,k) = Pro(ind,:,j,k);

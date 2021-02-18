@@ -94,7 +94,9 @@ if plot_full_flag
     y_tick_vec = 0.4:0.2:1;
     tot_P_plot = tot_P';
     tot_P_plot(zc1>1.0,:) = NaN;
+    if ~isempty(FB_coords)
     FB_coords = [39.8 41.5 43.5 46.81];
+    end
 
 else
     tot_P_plot = tot_P;
