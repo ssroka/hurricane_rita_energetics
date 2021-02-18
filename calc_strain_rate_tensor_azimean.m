@@ -105,10 +105,10 @@ dwdr(:,k) = d_vert_dr;
 
 %Resolved-scale strain rate tensor components, units of s^-1
 Strain(:,k,1,1) = d_radl_dr;
-Strain(:,k,1,2) = 0.5*(d_tang_dr);
+Strain(:,k,1,2) = 0.5*(d_tang_dr - ftang./radius);
 Strain(:,k,1,3) = 0.5*(d_radl_dz + d_vert_dr);
 Strain(:,k,2,1) = Strain(:,k,1,2);
-Strain(:,k,2,2) = 0.0;
+Strain(:,k,2,2) = fradl./radius;
 Strain(:,k,2,3) = 0.5*(d_tang_dz);
 Strain(:,k,3,1) = Strain(:,k,1,3);
 Strain(:,k,3,2) = Strain(:,k,2,3);
@@ -117,8 +117,8 @@ Strain(:,k,3,3) = d_vert_dz;
 gradients(:,k,1) = d_tang_dr;
 gradients(:,k,2) = d_radl_dr;
 gradients(:,k,3) = d_vert_dr;
-gradients(:,k,4) = 0.0;
-gradients(:,k,5) = 0.0;
+gradients(:,k,4) = -1*(ftang./radius);
+gradients(:,k,5) = fradl./radius;
 gradients(:,k,6) = 0.0;
 gradients(:,k,7) = d_tang_dz;
 gradients(:,k,8) = d_radl_dz;

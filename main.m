@@ -1,6 +1,6 @@
 clear;close all;clc
 
-polar = false; 
+polar = false;
 
 for i = [4]
     switch i
@@ -21,12 +21,17 @@ for i = [4]
             tc_file = 'newiwrap-output-ku1-dz30m-rita9221910.mat';
             pp = 1910;
     end
-   
+    
     load(tc_file)
-
+    
     get_rita_data	%module to read iwrap data and create mesh
     
     if ~polar	%across track mean = sector azimuthal mean
+        tang2_plot_uvw = squeeze(nanmean(tang2(21,:,:),1));
+        radl2_plot_uvw = squeeze(nanmean(radl2(21,:,:),1));
+        ww2_plot_uvw = squeeze(nanmean(ww2(21,:,:),1));
+        ref2_plot_uvw = squeeze(nanmean(ref2(21,:,:),1));
+        
         tang2 = squeeze(nanmean(tang2(20:22,:,:),1));
         radl2 = squeeze(nanmean(radl2(20:22,:,:),1));
         ww2 = squeeze(nanmean(ww2(20:22,:,:),1));
@@ -46,33 +51,55 @@ for i = [4]
     end
     
     if polar
-filtering_germano
-else
-filtering_germano_azimean
-end
-
-disp('Done SFS Fluxes')
-
-if polar
-calc_strain_rate_tensor
-else
-calc_strain_rate_tensor_azimean
-end
-
-disp('Done Strain')
-
-compute_fwd_back_scatter
-disp('Done Scatter')
-
-
-% ----- plotting -----
-% plot_velocity_uvw
-% plot_totP_P13_P23
-% plot_totP_LRC
-% plot_LCR_P13_P23
-% plot_1910_P_tau_S_L_C_R
-% plot_adv_utau_Pro
-
-
-
+        filtering_germano
+    else
+        filtering_germano_azimean
+    end
+    
+    disp('Done SFS Fluxes')
+    
+    if polar
+        calc_strain_rate_tensor
+    else
+        calc_strain_rate_tensor_azimean
+    end
+    
+    disp('Done Strain')
+    
+    compute_fwd_back_scatter
+    disp('Done Scatter')
+    
+    
+    % ----- plotting -----
+    % plot_velocity_uvw
+    % plot_totP_P13_P23
+    % plot_totP_LRC
+    % plot_LCR_P13_P23
+    % plot_1910_P_tau_S_L_C_R
+    % plot_adv_utau_Pro
+    
+    figure(1);set(gcf,'Position',[0 0 1000 200 ])
+    [c,h] = contourf(raddis,zc1,tot_P',-1.0:0.02:1.0);set(h,'edgecolor','none')
+    colorbar;colormap jet
+    caxis([-1 1])
+    xlim([15 55])
+    ylim([0 1.5])
+    xlabel('Radius (km)')
+    ylabel('Height (km)')
+    title('Production of SFS Energy by Resolved Scales (m^2 s^-^2 s^-^1)')
+    
+    hold on
+    contour(raddis,zc1,tot_P',[0,0],'linewidth',2,'linecolor','k')   %adding z
+    
+    figure(2);set(gcf,'Position',[0 0 1000 200 ])
+    [c,h] = contourf(raddis,zc1,tang2',30:1:80);set(h,'edgecolor','none')
+    colorbar;colormap jet
+    xlim([15 55])
+    ylim([0 1.5])
+    xlabel('Radius (km)')
+    ylabel('Height (km)')
+    title('Tangential Winds (m/s)')
+    
+    
+    save('new_mat','tang2','tot_P')
 end
