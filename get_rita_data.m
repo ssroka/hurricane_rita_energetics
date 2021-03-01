@@ -72,8 +72,11 @@ iwrapv = iwrapv - stormv;
 
 
 %Removing low SNR data
-iwrapws(ppccg<0.15|zc>1.0) = NaN;
-varw(ppccg<0.15|zc>1.0) = NaN;
+% iwrapws(ppccg<0.15|zc>1.0) = NaN;
+% varw(ppccg<0.15|zc>1.0) = NaN;
+% SS - remove z>0.1 only
+iwrapws(zc>1.0) = NaN;
+varw(zc>1.0) = NaN;
 
 %Pulling out data at nadir and from 1.4 km and below (data bad above ~ 1.4 km)
 ref2 = ref;

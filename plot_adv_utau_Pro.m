@@ -64,18 +64,23 @@ switch pp
         %                     line_end = [45.56 0.87; 47.8 0.45];
 end
 
-
+   tot_P_plot = tot_P';
+    tot_P_plot(zc1>1.0,:) = NaN;
+    
 figure(1)
+
 x_inds = (raddis>=x_bnds(1)) & (raddis<=x_bnds(2));
 y_inds = (zc1>=y_bnds(1)) & (zc1<=y_bnds(2));
 % adv_patch = tot_adv(y_inds,x_inds);
 min_adv = min(tot_adv(:));
 max_adv = max(tot_adv(:));
-[c,h] = contourf(raddis,zc1,tot_adv',[ -60:5:60 ]);
+[c,h] = contourf(raddis,zc1,tot_adv',[-100:1:100]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
+    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+
 title('$$\frac{\partial}{\partial x_j} \overline{q}^2\overline{u_j}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
@@ -85,13 +90,15 @@ print(sprintf('imgs/advection_%d_%d',pp,window),'-dpdf')
 
 figure(2)
 
-min_uT = min(tot_utau(:));
-max_uT = max(tot_utau(:));
-[c,h] = contourf(raddis,zc1,tot_utau',[ -10:0.01:10 ]);
+min_uT = min(-2*tot_utau(:));
+max_uT = max(-2*tot_utau(:));
+[c,h] = contourf(raddis,zc1,-2*tot_utau',[-15:0.1:15]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
+    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+
 title('$$-2\frac{\partial}{\partial x_j} \overline{u_i}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
@@ -101,19 +108,45 @@ print(sprintf('imgs/utau_%d_%d',pp,window),'-dpdf')
 
 
 figure(3)
-[c,h] = contourf(raddis,zc1,2*tot_P',[ -1:0.01:1 ]);
+[c,h] = contourf(raddis,zc1,2*(-tot_P)',[-1.5:0.01:1.5]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
-title('$$-2 \overline{S_{ij}}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
+    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+
+title('$$2 \overline{S_{ij}}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
 end
 update_figure_paper_size()
 print(sprintf('imgs/totP_%d_%d',pp,window),'-dpdf')
 
+figure(4)
+[c,h] = contourf(raddis,zc1,2*(-tot_P)'+-2*tot_utau'-tot_adv',[-100:1:100]);
+set(h,'edgecolor','none')
+editFig(1,x_bnds,y_bnds)
+cmap = colormap('jet');
+hold on
+    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
+title('$$    2 \overline{S_{ij}}\tau_{ij}-2\frac{\partial}{\partial x_j} \overline{u_i}\tau_{ij}-\frac{\partial}{\partial x_j} \overline{q}^2\overline{u_j}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
+for i = 1:length(FB_coords)
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+end
+update_figure_paper_size()
+print(sprintf('imgs/totbudget_RHS_%d_%d',pp,window),'-dpdf')
+
+figure(5)
+plot(tot_adv(35,:)',zc1,'displayname','adv');
+hold on
+plot(-2*tot_P(35,:)',zc1,'displayname','2 tau S');
+plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
+legend('location','best')
+set(gca,'ylim',[0.4 1])
+
+
+figure(6) % pressure term
 
 
 function [] = editFig(n,x_bnds,y_bnds)

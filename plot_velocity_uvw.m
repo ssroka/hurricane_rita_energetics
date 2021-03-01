@@ -2,6 +2,7 @@ close all
 
 plot_full_flag = true;
 
+addpath('~/Documents/MATLAB/util/othercolor/')
 
 fig_str = {...
     'uvw_velocity_full_w'
@@ -102,43 +103,45 @@ else
     tot_P_plot = tot_P;
 end
 
-cb = [-40 5;20 70;-6 6];
+cb = [-30 5;40 70;-5 5];
 
 figure(1+2*(p-2))
 subplot(3,1,1)
 plot_rad(raddis,zc1,radl2_plot_uvw,cb(1,:))
-for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
-end
+% for i = 1:length(FB_coords)
+%     h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
+% end
 hold on
 [c,h1] = contour(raddis,zc1,radl2_plot_uvw',[1 1]*0,'k:','linewidth',3);
+set(gca,'colormap',othercolor(193))
 
 subplot(3,1,2)
 plot_tang(raddis,zc1,tang2_plot_uvw,cb(2,:))
-for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
-end
+% for i = 1:length(FB_coords)
+%     h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
+% end
 
 
 subplot(3,1,3)
 plot_vert(raddis,zc1,ww2_plot_uvw,cb(3,:))
 editFig(3,x_bnds,y_bnds)
-for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
-end
+% for i = 1:length(FB_coords)
+%     h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
+% end
 
-
-for i = 1:3
-    subplot(3,1,i)
+for j = 1:3
+    subplot(3,1,j)
     hold on
+    plot([1 1]*46.5,y_bnds,'--','linewidth',4,'color',[1 1 1]*0.4)
     [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
-    set(gca,'clim',cb(i,:),'ytick',y_tick_vec)
+    set(gca,'clim',cb(j,:),'ytick',y_tick_vec)
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',f_size);
     end
-    
+    if j ~= 1
+        set(gca,'colormap',jet)
+    end
 end
-
 
 
 % 
@@ -170,7 +173,7 @@ else
     end
     set(gcf,'color','w','position',[428     4   902   801])
 end
-colormap('jet')
+
 
 end
 

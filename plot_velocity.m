@@ -226,6 +226,8 @@ if ismember(81,plot_figs)
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
+    set(gca,'xtick',[40 45 50])
+
 end
 if ismember(8,plot_figs)
     % dwdr1 =  (sfs_vert(2:end,:)'-sfs_vert(1:end-1,:)')./repmat(diff(raddis(:))',length(zc1),1);
@@ -255,7 +257,8 @@ if ismember(8,plot_figs)
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
-    
+        set(gca,'xtick',[40 45 50])
+
 end
 
 if ismember(83,plot_figs)
@@ -280,6 +283,7 @@ if ismember(83,plot_figs)
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
+    set(gca,'xtick',[40 45 50])
 end
 %%
 % d totP /dr
