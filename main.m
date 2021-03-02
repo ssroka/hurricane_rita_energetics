@@ -69,14 +69,15 @@ for i = [5]
     compute_fwd_back_scatter
     disp('Done Scatter')
     
+    calc_pressure_term
     
     % ----- plotting -----
-    plot_velocity_uvw
+%     plot_velocity_uvw
 %     plot_totP_P13_P23
 %     plot_totP_LRC
 %     plot_LCR_P13_P23
 %     plot_1910_P_tau_S_L_C_R
-%     plot_adv_utau_Pro
+    plot_adv_utau_Pro
 % plot_velocity
     
 %     figure(1);set(gcf,'Position',[0 0 1000 200 ])

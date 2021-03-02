@@ -145,10 +145,16 @@ plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
 legend('location','best')
 set(gca,'ylim',[0.4 1])
 
-
+%%
 figure(6) % pressure term
-
-
+[c,h] = contourf(raddis,zc1,pgf_r',[-1:0.01:0.5]);
+set(h,'edgecolor','none')
+editFig(1,x_bnds,y_bnds)
+title('$$ \frac{1}{\rho}u\frac{\partial p}{\partial r}  $$','interpreter','latex')
+for i = 1:length(FB_coords)
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+end
+%%
 function [] = editFig(n,x_bnds,y_bnds)
 if nargin <3
     y_bnds = [0.2 1];

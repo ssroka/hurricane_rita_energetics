@@ -3,17 +3,21 @@ d2r = pi/180;
 
 %Making nadir grid (units of km)
 %Track-relative grid, km. %IWRAP along-track sampling = 100 - 150 m
-delx = 0.25;delz = 0.03;
+delx = 0.25;
+delz = 0.03;
 sx = -5.0:delx:5.0;      %across-track
 enda = atdis{1};
-xc1 = 0;yc1 = 0:delx:100;yc1 = double(yc1);
+xc1 = 0;yc1 = 0:delx:100;
+yc1 = double(yc1);
 low = 0;high = 2;
 zc1 = low:delz:high;
 [xc,yc,zc]=meshgrid(sx,yc1,zc1);
 zc = permute(zc,[2 1 3]);
 yc = permute(yc,[2 1 3]);
 
-nz = numel(zc1);nx = numel(sx);ny = numel(yc1);
+nz = numel(zc1);
+nx = numel(sx);
+ny = numel(yc1);
 
 iwrapws = sqrt(varu.^2 + varv.^2);                      %horizontal wind speed, m/s
 ref = 10*log10(ref);
@@ -141,9 +145,12 @@ end
 
 %Removing wind data below ~ 200 m height (k=7) and above ~ 1.4 km height (k=48)
 lo = 7;hi = 48;
-ww2(:,:,1:lo) = NaN;ww2(:,:,hi:nz) = NaN;
-tang2(:,:,1:lo) = NaN;tang2(:,:,hi:nz) = NaN;
-radl2(:,:,1:lo) = NaN;radl2(:,:,hi:nz) = NaN;
+ww2(:,:,1:lo) = NaN;
+ww2(:,:,hi:nz) = NaN;
+tang2(:,:,1:lo) = NaN;
+tang2(:,:,hi:nz) = NaN;
+radl2(:,:,1:lo) = NaN;
+radl2(:,:,hi:nz) = NaN;
 
 %Masking radial/tangential/vertical winds to match other data
 mask = isnan(tang2) | isnan(radl2) | isnan(ww2);
