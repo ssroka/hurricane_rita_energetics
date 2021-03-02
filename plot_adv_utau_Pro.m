@@ -64,9 +64,9 @@ switch pp
         %                     line_end = [45.56 0.87; 47.8 0.45];
 end
 
-   tot_P_plot = tot_P';
-    tot_P_plot(zc1>1.0,:) = NaN;
-    
+tot_P_plot = tot_P';
+tot_P_plot(zc1>1.0,:) = NaN;
+
 figure(1)
 
 x_inds = (raddis>=x_bnds(1)) & (raddis<=x_bnds(2));
@@ -79,7 +79,7 @@ set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
-    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+[c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
 title('$$\frac{\partial}{\partial x_j} \overline{q}^2\overline{u_j}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
@@ -97,7 +97,7 @@ set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
-    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+[c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
 title('$$-2\frac{\partial}{\partial x_j} \overline{u_i}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
@@ -113,7 +113,7 @@ set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
-    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+[c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
 title('$$2 \overline{S_{ij}}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
@@ -128,7 +128,7 @@ set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 cmap = colormap('jet');
 hold on
-    [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+[c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
 title('$$    2 \overline{S_{ij}}\tau_{ij}-2\frac{\partial}{\partial x_j} \overline{u_i}\tau_{ij}-\frac{\partial}{\partial x_j} \overline{q}^2\overline{u_j}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
@@ -137,13 +137,6 @@ end
 update_figure_paper_size()
 print(sprintf('imgs/totbudget_RHS_%d_%d',pp,window),'-dpdf')
 
-figure(5)
-plot(tot_adv(35,:)',zc1,'displayname','adv');
-hold on
-plot(-2*tot_P(35,:)',zc1,'displayname','2 tau S');
-plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
-legend('location','best')
-set(gca,'ylim',[0.4 1])
 
 %%
 figure(6) % pressure term
@@ -154,6 +147,21 @@ title('$$ \frac{1}{\rho}u\frac{\partial p}{\partial r}  $$','interpreter','latex
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
 end
+%%
+
+
+figure(5)
+plot(tot_adv(35,:)',zc1,'displayname','adv');
+hold on
+plot(-2*tot_P(35,:)',zc1,'displayname','2 tau S');
+plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
+plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
+legend('location','best')
+set(gca,'ylim',[0.4 1])
+
+
+
+
 %%
 function [] = editFig(n,x_bnds,y_bnds)
 if nargin <3
