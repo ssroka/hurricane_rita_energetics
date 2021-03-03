@@ -75,7 +75,7 @@ y_inds = (zc1>=y_bnds(1)) & (zc1<=y_bnds(2));
 % adv_patch = tot_adv(y_inds,x_inds);
 min_adv = min(tot_adv(:));
 max_adv = max(tot_adv(:));
-[c,h] = contourf(raddis,zc1,tot_adv',[-100:1:100]);
+[c,h] = contourf(raddis,zc1,tot_adv',[-20:0.5:20]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
@@ -142,7 +142,7 @@ print(sprintf('imgs/dpdr_%d_%d',pp,window),'-dpdf')
 
 %%
 figure(4)
-[c,h] = contourf(raddis,zc1,pgf_r'+-2*tot_utau'+2*(-tot_P)'-tot_adv',[-100:1:100]);
+[c,h] = contourf(raddis,zc1,pgf_r'+-2*tot_utau'+2*(-tot_P)'-tot_adv',[-20:1:20]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 cmap = colormap('jet');
@@ -158,18 +158,6 @@ for i = 1:length(FB_coords)
 end
 update_figure_paper_size()
 print(sprintf('imgs/totbudget_RHS_%d_%d',pp,window),'-dpdf')
-%%
-
-
-figure(5)
-plot(tot_adv(35,:)',zc1,'displayname','adv');
-hold on
-plot(-2*tot_P(35,:)',zc1,'displayname','2 tau S');
-plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
-plot(-2*tot_utau(35,:)',zc1,'displayname','-2 uTau');
-legend('location','best')
-set(gca,'ylim',[0.4 1])
-
 
 
 

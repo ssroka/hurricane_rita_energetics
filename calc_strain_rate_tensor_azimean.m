@@ -143,16 +143,12 @@ advection(:,k,1,3) = ddz(q_bar_sq,...
                          q_bar_sq_b,...
                          q_bar_sq_t,DZ,T_flag,B_flag).*fvert;
 
-advection(:,k,2,1) = ddr(q_bar_sq,DR).*fradl;
+advection(:,k,2,1) = 0.0;
 advection(:,k,2,2) = 0.0;
-advection(:,k,2,3) = ddz(q_bar_sq,...
-                         q_bar_sq_b,...
-                         q_bar_sq_t,DZ,T_flag,B_flag).*fvert;
-advection(:,k,3,1) = ddr(q_bar_sq,DR).*fradl;
+advection(:,k,2,3) = 0.0;
+advection(:,k,3,1) = 0.0;
 advection(:,k,3,2) = 0.0;
-advection(:,k,3,3) = ddz(q_bar_sq,...
-                         q_bar_sq_b,...
-                         q_bar_sq_t,DZ,T_flag,B_flag).*fvert;
+advection(:,k,3,3) = 0.0;
 
 utau(:,k,1,1) = ddr(Tau(:,k,1,1),DR).*fradl;
 utau(:,k,1,2) = 0.0;
