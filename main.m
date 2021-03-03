@@ -77,8 +77,9 @@ for i = [5]
 %     plot_totP_LRC
 %     plot_LCR_P13_P23
 %     plot_1910_P_tau_S_L_C_R
-    plot_adv_utau_Pro
-% plot_velocity
+%     plot_adv_utau_Pro
+%     plot_velocity
+plot_vertical_profiles
     
 %     figure(1);set(gcf,'Position',[0 0 1000 200 ])
 %     [c,h] = contourf(raddis,zc1,tot_P',-1.0:0.02:1.0);set(h,'edgecolor','none')
