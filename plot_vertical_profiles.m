@@ -105,7 +105,7 @@ for i = 1:size(cntr_bnds,1)
     
     plot(dpdr_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial r}$$');
     hold on
-    plot(dpdz_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial z}$$');
+    plot(dpdz_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}w\frac{\partial p}{\partial z}$$');
     plot(uTau_mean_prof,zc1,'linewidth',2,'displayname','$$-2\frac{\partial}{\partial x_j}\overline{u_i}\tau_{ij}$$');
     plot(adv_mean_prof,zc1,'linewidth',2,'displayname','$$-\overline{u_j}\frac{\partial}{\partial x_j}\overline{q}^2$$');
     plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$2 \overline{S_{ij}}\tau_{ij}$$');
@@ -122,7 +122,47 @@ print(sprintf('imgs/componsite_contours_%d_%d',pp,window),'-dpdf')
 
 %%
 figure(2)
-[c,h] = contourf(raddis,zc1,2*(-tot_P)',[-1.5:0.01:1.5]);
+for i = 1:size(cntr_bnds,1)
+    if strcmp(FB(i),'B')
+        s = -1;
+    else
+        s = 1;
+    end
+    subplot(2,2,i)
+    r_ind_min = find(raddis > cntr_bnds(i,1),1,'first');
+    r_ind_max = find(raddis < cntr_bnds(i,2),1,'last');
+    P_inds = s*tot_P>0;
+    
+    eddy_inds = false(size(tot_P));
+    % mark the region that bounds the current eddy true
+    eddy_inds(r_ind_min:r_ind_max,:) = true;
+    % only keep the parts of the eddy, and change to 1's and 0's so that NaN assignment can work
+    eddy_inds = double(eddy_inds & P_inds);
+    % change zeros to NaN so that nanmean works
+    eddy_inds(eddy_inds==0) = NaN;
+    
+    % do a radial average, recall before transposing, 
+    % radius changes down the rows
+    dqdt_mean_prof = nanmean(KE_bug_dqdt.*eddy_inds);
+    dqdt_mPro_mean_prof = nanmean(KE_bug_dqdt-KE_bug_tot_P.*eddy_inds);
+
+    plot(dqdt_mean_prof,zc1,'linewidth',2,'displayname','$$\frac{\partial q}{\partial t}$$');
+    hold on
+    plot(dqdt_mPro_mean_prof,zc1,'linewidth',2,'displayname','$$\frac{\partial q}{\partial t}-2 \overline{S_{ij}}\tau_{ij}$$');
+
+    ylim(y_bnds)
+    set(gca,'fontsize',24)
+    ylabel('Height [km]','interpreter','latex')
+    legend('location','eastoutside','interpreter','latex')
+    title(sprintf('%d: %s eddy at %2.1f',pp,FB(i),mean(cntr_bnds(i,:))))
+end
+set(gcf,'color','w','position',[64           4        1266         791])
+update_figure_paper_size()
+print(sprintf('imgs/Pro_contrib_%d_%d',pp,window),'-dpdf')
+
+%%
+figure(3)
+[c,h] = contourf(raddis,zc1,KE_bug_tot_P',[-1.5:0.01:1.5]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')

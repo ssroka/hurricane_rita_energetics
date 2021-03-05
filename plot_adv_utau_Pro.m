@@ -125,7 +125,7 @@ end
 %%
 subplot(3,2,4)
  % pressure term
-[c,h] = contourf(raddis,zc1,KE_bug_dpdz',[-1.2:0.01:1.2]);
+[c,h] = contourf(raddis,zc1,KE_bug_dpdz',[-10.2:0.01:10.2]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 title('$$ -\frac{2}{\rho}\overline{w}\frac{\partial p}{\partial z}  $$','interpreter','latex')
