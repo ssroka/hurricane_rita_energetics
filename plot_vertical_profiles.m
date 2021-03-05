@@ -100,7 +100,7 @@ for i = 1:size(cntr_bnds,1)
     adv_mean_prof  = -nanmean(tot_adv.*eddy_inds);
     dpdr_mean_prof  = nanmean(pgf_r.*eddy_inds);
     
-    plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$\frac{1}{\rho}u\frac{\partial p}{\partial r}$$');
+    plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial r}$$');
     hold on
     plot(uTau_mean_prof,zc1,'linewidth',2,'displayname','$$-2\overline{u_i}\frac{\partial}{\partial x_j}\tau_{ij}$$');
     plot(adv_mean_prof,zc1,'linewidth',2,'displayname','$$2 \overline{S_{ij}}\tau_{ij}$$');
@@ -108,7 +108,6 @@ for i = 1:size(cntr_bnds,1)
     
     ylim(y_bnds)
     set(gca,'fontsize',24)
-    xlabel('Radius [km]','interpreter','latex')
     ylabel('Height [km]','interpreter','latex')
     legend('location','best','interpreter','latex')
     title(sprintf('%d: %s eddy at %2.1f',pp,FB(i),mean(cntr_bnds(i,:))))

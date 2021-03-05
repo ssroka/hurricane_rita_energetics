@@ -100,7 +100,7 @@ colormap('jet')
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
-title('$$-2\overline{u_i}\frac{\partial}{\partial x_j} \tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
+title('$$-2\overline{u_i}\frac{\partial}{\partial x_j} \overline{u_i} \tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
 end
@@ -128,10 +128,10 @@ print(sprintf('imgs/totP_%d_%d',pp,window),'-dpdf')
 
 %%
 figure(6) % pressure term
-[c,h] = contourf(raddis,zc1,pgf_r',[-1:0.01:0.5]);
+[c,h] = contourf(raddis,zc1,-2.*pgf_r',[-1.2:0.01:1.2]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
-title('$$ \frac{1}{\rho}\overline{u_j}\frac{\partial p}{\partial r}  $$','interpreter','latex')
+title('$$ -\frac{2}{\rho}\overline{u_j}\frac{\partial p}{\partial r}  $$','interpreter','latex')
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
 end
@@ -142,7 +142,7 @@ print(sprintf('imgs/dpdr_%d_%d',pp,window),'-dpdf')
 
 %%
 figure(4)
-[c,h] = contourf(raddis,zc1,pgf_r'+-2*tot_utau'+2*(-tot_P)'-tot_adv',[-20:1:20]);
+[c,h] = contourf(raddis,zc1,-2.*pgf_r'+-2*tot_utau'+2*(-tot_P)'-tot_adv',[-20:1:20]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 cmap = colormap('jet');

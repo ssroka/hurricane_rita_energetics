@@ -65,11 +65,15 @@ for i = [2 4 5]
     end
     
     disp('Done Strain')
-    
-    compute_fwd_back_scatter
-    disp('Done Scatter')
+
     
     calc_pressure_term
+    disp('Done Pressure')
+    
+        
+    compute_fwd_back_scatter
+    disp('Done Scatter')
+
     
     % ----- plotting -----
 %     plot_velocity_uvw
