@@ -11,10 +11,11 @@ tot_P = sum(sum(Pro,Ndim),d2);
 tot_adv =  sum(sum(advection,Ndim),d2);
 tot_utau =  sum(sum(utau,Ndim),d2);
 
-KE_bug_tot_P = -2*Pro;
+KE_bug_tot_P = -2*tot_P;
 KE_bug_uTau = -2*tot_utau;
 KE_bug_adv = -tot_adv;
 KE_bug_dpdr = -2*pgf_r;
+KE_bug_dpdz = -2*pgf_z;
 KE_bug_dqdt = KE_bug_adv+KE_bug_dpdr+KE_bug_tot_P;
 
 %%Pforward = 0.5*(tot_P + abs(tot_P));	%positive production of SFS energy, forwardscatter
@@ -42,6 +43,7 @@ KE_bug_tot_P = KE_bug_tot_P(ind,:);
 KE_bug_uTau = KE_bug_uTau(ind,:);
 KE_bug_adv = KE_bug_adv(ind,:);
 KE_bug_dpdr = KE_bug_dpdr(ind,:);
+KE_bug_dpdz = KE_bug_dpdz(ind,:);
 KE_bug_dqdt = KE_bug_dqdt(ind,:);
 
 

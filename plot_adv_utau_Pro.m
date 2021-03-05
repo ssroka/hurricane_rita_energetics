@@ -68,96 +68,113 @@ end
 tot_P_plot = tot_P';
 tot_P_plot(zc1>1.0,:) = NaN;
 %%
-figure(1)
-
+subplot(3,2,1)
 x_inds = (raddis>=x_bnds(1)) & (raddis<=x_bnds(2));
 y_inds = (zc1>=y_bnds(1)) & (zc1<=y_bnds(2));
 % adv_patch = tot_adv(y_inds,x_inds);
 min_adv = min(tot_adv(:));
 max_adv = max(tot_adv(:));
-[c,h] = contourf(raddis,zc1,tot_adv',[-20:0.5:20]);
+[c,h] = contourf(raddis,zc1,KE_bug_adv',[-20:0.5:20]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
-[c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+[c,h1] = contour(raddis,zc1,KE_bug_tot_P',[1 1]*0,'w-','linewidth',3);
 
-title('$$\overline{u_j}\frac{\partial}{\partial x_j} \overline{q}^2$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
+title('$$-\overline{u_j}\frac{\partial}{\partial x_j} \overline{q}^2$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
-update_figure_paper_size()
-print(sprintf('imgs/advection_%d_%d',pp,window),'-dpdf')
+% update_figure_paper_size()
+% print(sprintf('imgs/advection_%d_%d',pp,window),'-dpdf')
 %%
-figure(2)
+subplot(3,2,2)
 
 min_uT = min(-2*tot_utau(:));
 max_uT = max(-2*tot_utau(:));
-[c,h] = contourf(raddis,zc1,-2*tot_utau',[-15:0.1:15]);
+[c,h] = contourf(raddis,zc1,KE_bug_uTau',[-15:0.1:15]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
-title('$$-2\overline{u_i}\frac{\partial}{\partial x_j} \overline{u_i} \tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
+title('$$-2\frac{\partial}{\partial x_j} \overline{u_i} \tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
-update_figure_paper_size()
-print(sprintf('imgs/utau_%d_%d',pp,window),'-dpdf')
+% update_figure_paper_size()
+% print(sprintf('imgs/utau_%d_%d',pp,window),'-dpdf')
 
 %%
-figure(3)
-[c,h] = contourf(raddis,zc1,2*(-tot_P)',[-1.5:0.01:1.5]);
+subplot(3,2,3)
+[c,h] = contourf(raddis,zc1,KE_bug_tot_P',[-1.5:0.01:1.5]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 colormap('jet')
 hold on
-[c,h1] = contour(raddis,zc1,2*-tot_P_plot,[-1 1]*0.0,'w-','linewidth',3);
+[c,h1] = contour(raddis,zc1,tot_P_plot,[-1 1]*0.0,'w-','linewidth',3);
 
 title('$$2 \overline{S_{ij}}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
 for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
-update_figure_paper_size()
-print(sprintf('imgs/totP_%d_%d',pp,window),'-dpdf')
-
-
-
+% update_figure_paper_size()
+% print(sprintf('imgs/totP_%d_%d',pp,window),'-dpdf')
 
 %%
-figure(6) % pressure term
-[c,h] = contourf(raddis,zc1,-2.*pgf_r',[-1.2:0.01:1.2]);
+subplot(3,2,4)
+ % pressure term
+[c,h] = contourf(raddis,zc1,KE_bug_dpdz',[-1.2:0.01:1.2]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
-title('$$ -\frac{2}{\rho}\overline{u_j}\frac{\partial p}{\partial r}  $$','interpreter','latex')
+title('$$ -\frac{2}{\rho}\overline{w}\frac{\partial p}{\partial z}  $$','interpreter','latex')
 for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
-update_figure_paper_size()
-print(sprintf('imgs/dpdr_%d_%d',pp,window),'-dpdf')
+% update_figure_paper_size()
+% print(sprintf('imgs/dpdz_%d_%d',pp,window),'-dpdf')
+
 
 %%
-figure(4)
-[c,h] = contourf(raddis,zc1,-2.*pgf_r'+-2*tot_utau'+2*(-tot_P)'-tot_adv',[-20:1:20]);
+subplot(3,2,5)
+ % pressure term
+[c,h] = contourf(raddis,zc1,KE_bug_dpdr',[-1.2:0.01:1.2]);
+set(h,'edgecolor','none')
+editFig(1,x_bnds,y_bnds)
+title('$$ -\frac{2}{\rho}\overline{u}\frac{\partial p}{\partial r}  $$','interpreter','latex')
+for i = 1:length(FB_coords)
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
+end
+hold on
+[c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
+% update_figure_paper_size()
+% print(sprintf('imgs/dpdr_%d_%d',pp,window),'-dpdf')
+
+%%
+subplot(3,2,6)
+
+[c,h] = contourf(raddis,zc1,KE_bug_dqdt',[-20:1:20]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 cmap = colormap('jet');
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 
-title(['$$ \frac{1}{\rho}u\frac{\partial p}{\partial r}+'...
-       '-2\overline{u_i}\frac{\partial}{\partial x_j}\tau_{ij}'...
+title(['$$- \frac{2}{\rho}u\frac{\partial p}{\partial r}+'...
+       '- \frac{2}{\rho}w\frac{\partial p}{\partial z}+'...
+       '-2\frac{\partial}{\partial x_j}\overline{u_i}\tau_{ij}'...
        '+2 \overline{S_{ij}}\tau_{ij}'...
        '-\overline{u_j}\frac{\partial}{\partial x_j}\overline{q}^2$$ [m$$^2$$s$$^{-3}$$]'],'interpreter','latex')
 for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
+    h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
+
+
 update_figure_paper_size()
-print(sprintf('imgs/totbudget_RHS_%d_%d',pp,window),'-dpdf')
+print(sprintf('imgs/totbudget_%d_%d',pp,window),'-dpdf')
 
 
 
@@ -169,8 +186,8 @@ end
 if n == 1
     xlim(x_bnds)
     ylim(y_bnds)
-    set(gca,'fontsize',24)
-    set(gcf,'color','w','position',[428     4   902   300])
+    set(gca,'fontsize',15)
+    set(gcf,'color','w','position',[85           4        1245         801])
     colorbar
     xlabel('Radius [km]','interpreter','latex')
     ylabel('Height [km]','interpreter','latex')
@@ -180,12 +197,12 @@ else
         subplot(3,1,i)
         xlim(x_bnds)
         ylim(y_bnds)
-        set(gca,'fontsize',24)
+        set(gca,'fontsize',15)
         colorbar
         xlabel('Radius [km]','interpreter','latex')
         ylabel('Height [km]','interpreter','latex')
     end
-    set(gcf,'color','w','position',[428     4   902   801])
+    set(gcf,'color','w','position',[85           4        1245         801])
 end
 colormap('jet')
 

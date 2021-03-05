@@ -95,21 +95,25 @@ for i = 1:size(cntr_bnds,1)
     
     % do a radial average, recall before transposing, 
     % radius changes down the rows
-    tot_P_mean_prof  = -2*nanmean(tot_P.*eddy_inds);
-    uTau_mean_prof  = -2*nanmean(tot_utau.*eddy_inds);
-    adv_mean_prof  = -nanmean(tot_adv.*eddy_inds);
-    dpdr_mean_prof  = nanmean(pgf_r.*eddy_inds);
+    tot_P_mean_prof = nanmean(KE_bug_tot_P.*eddy_inds);
+    uTau_mean_prof  = nanmean(KE_bug_uTau.*eddy_inds);
+    adv_mean_prof   = nanmean(KE_bug_adv.*eddy_inds);
+    dpdr_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds);
+    dpdz_mean_prof  = nanmean(KE_bug_dpdz.*eddy_inds);
+    dqdt_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds);
     
-    plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial r}$$');
+    
+    plot(dpdr_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial r}$$');
     hold on
-    plot(uTau_mean_prof,zc1,'linewidth',2,'displayname','$$-2\overline{u_i}\frac{\partial}{\partial x_j}\tau_{ij}$$');
-    plot(adv_mean_prof,zc1,'linewidth',2,'displayname','$$2 \overline{S_{ij}}\tau_{ij}$$');
-    plot(dpdr_mean_prof,zc1,'linewidth',2,'displayname','$$-\overline{u_j}\frac{\partial}{\partial x_j}\overline{q}^2$$');
-    
+    plot(dpdz_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial z}$$');
+    plot(uTau_mean_prof,zc1,'linewidth',2,'displayname','$$-2\frac{\partial}{\partial x_j}\overline{u_i}\tau_{ij}$$');
+    plot(adv_mean_prof,zc1,'linewidth',2,'displayname','$$-\overline{u_j}\frac{\partial}{\partial x_j}\overline{q}^2$$');
+    plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$2 \overline{S_{ij}}\tau_{ij}$$');
+
     ylim(y_bnds)
     set(gca,'fontsize',24)
     ylabel('Height [km]','interpreter','latex')
-    legend('location','best','interpreter','latex')
+    legend('location','eastoutside','interpreter','latex')
     title(sprintf('%d: %s eddy at %2.1f',pp,FB(i),mean(cntr_bnds(i,:))))
 end
 set(gcf,'color','w','position',[64           4        1266         791])
