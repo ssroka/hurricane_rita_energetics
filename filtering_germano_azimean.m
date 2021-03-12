@@ -31,9 +31,7 @@ sfs_vert = tang*NaN;
 for k=lo+1:hi-1	%height loop, iwrap levels with good data
 
 good = sum((~isnan(tang(:,k))));
-
 if good > (3*window)
-
 %Pulling out radial profiles of winds
 pullt = squeeze(tang(:,k));
 pullr = squeeze(radl(:,k));

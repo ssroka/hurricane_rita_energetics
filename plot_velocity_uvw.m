@@ -146,7 +146,7 @@ end
 
 % 
 update_figure_paper_size()
-print(sprintf('imgs/%d_%s_%d',pp,fig_str{1},window),'-dpdf')
+print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{1},window,mean_rm_str),'-dpdf')
 
 function [] = editFig(n,x_bnds,y_bnds)
 if nargin <3

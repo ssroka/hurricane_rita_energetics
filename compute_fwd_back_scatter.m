@@ -16,7 +16,7 @@ KE_bug_uTau = -2*tot_utau;
 KE_bug_adv = -tot_adv;
 KE_bug_dpdr = -2*pgf_r;
 KE_bug_dpdz = -2*pgf_z;
-KE_bug_dqdt = KE_bug_adv+KE_bug_dpdr+KE_bug_tot_P+KE_bug_dpdz;
+KE_bug_dqdt = KE_bug_adv+KE_bug_dpdr+KE_bug_tot_P+KE_bug_uTau+KE_bug_dpdz;
 
 %%Pforward = 0.5*(tot_P + abs(tot_P));	%positive production of SFS energy, forwardscatter
 %%Pbackward = 0.5*(tot_P - abs(tot_P));	%negative production of SFS energy, backscatter

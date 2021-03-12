@@ -145,7 +145,7 @@ for k0 = 1:3
   count = count + 1;
 end
 update_figure_paper_size()
-print(sprintf('imgs/%d_%s_total_%d',pp,'LRC',window),'-dpdf')
+print(sprintf('imgs/%d_%s_total_%d%s',pp,'LRC',window,mean_rm_str),'-dpdf')
   
 %%
 figure(k+1)
@@ -192,7 +192,7 @@ set(gcf,'color','w','position',[7          41        1396         764])
 for i = 1:length(vars)
     figure(i)
     update_figure_paper_size()
-    print(sprintf('imgs/%d_%s_%d',pp,fig_name{i},window),'-dpdf')
+    print(sprintf('imgs/%d_%s_%d%s',pp,fig_name{i},window,mean_rm_str),'-dpdf')
 end
 
 

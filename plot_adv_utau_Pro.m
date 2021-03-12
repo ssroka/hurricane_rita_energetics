@@ -86,7 +86,7 @@ for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
 % update_figure_paper_size()
-% print(sprintf('imgs/advection_%d_%d',pp,window),'-dpdf')
+% print(sprintf('imgs/advection_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 %%
 subplot(3,2,2)
 
@@ -104,7 +104,7 @@ for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
 % update_figure_paper_size()
-% print(sprintf('imgs/utau_%d_%d',pp,window),'-dpdf')
+% print(sprintf('imgs/utau_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 subplot(3,2,3)
@@ -120,12 +120,12 @@ for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
 % update_figure_paper_size()
-% print(sprintf('imgs/totP_%d_%d',pp,window),'-dpdf')
+% print(sprintf('imgs/totP_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 subplot(3,2,4)
  % pressure term
-[c,h] = contourf(raddis,zc1,KE_bug_dpdz',[-10.2:0.01:10.2]);
+[c,h] = contourf(raddis,zc1,KE_bug_dpdz',[-2.2:0.01:2.2]);
 set(h,'edgecolor','none')
 editFig(1,x_bnds,y_bnds)
 title('$$ -\frac{2}{\rho}\overline{w}\frac{\partial p}{\partial z}  $$','interpreter','latex')
@@ -135,7 +135,7 @@ end
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 % update_figure_paper_size()
-% print(sprintf('imgs/dpdz_%d_%d',pp,window),'-dpdf')
+% print(sprintf('imgs/dpdz_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 %%
@@ -151,7 +151,7 @@ end
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 % update_figure_paper_size()
-% print(sprintf('imgs/dpdr_%d_%d',pp,window),'-dpdf')
+% print(sprintf('imgs/dpdr_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 subplot(3,2,6)
@@ -174,7 +174,7 @@ end
 
 
 update_figure_paper_size()
-print(sprintf('imgs/totbudget_%d_%d',pp,window),'-dpdf')
+print(sprintf('imgs/totbudget_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 

@@ -1,6 +1,7 @@
 clear;close all;clc
 
 polar = false;
+mean_rm = true;
 
 for i = [5]
     switch i
@@ -39,6 +40,23 @@ for i = [5]
         radius = squeeze(nanmean(raddis(20:22,:,8),1))*1000;		%radius from storm center vector, m
     end
     
+    if mean_rm
+        % removing the r-mean at each vertical level
+        %         tang2 = tang2 - repmat(nanmean(tang2),size(tang2,1),1);
+        %         radl2 = radl2 - repmat(nanmean(radl2),size(radl2,1),1);
+        %         ww2   = ww2   - repmat(nanmean(ww2),size(ww2,1),1);
+        %         ref2  = ref2  - repmat(nanmean(ref2),size(ref2,1),1);
+        
+        % removing the r-z mean
+        tang2 = tang2 - nanmean(tang2(:));
+        radl2 = radl2 - nanmean(radl2(:));
+        ww2   = ww2   - nanmean(ww2(:));
+        ref2  = ref2  - nanmean(ref2(:));
+        mean_rm_str = '_meanRM';
+    else
+        mean_rm_str = '';
+    end
+    
     tang = tang2;
     radl = radl2;
     vert = ww2;
@@ -65,48 +83,48 @@ for i = [5]
     end
     
     disp('Done Strain')
-
+    
     
     calc_pressure_term
     disp('Done Pressure')
     
-        
+    
     compute_fwd_back_scatter
     disp('Done Scatter')
-
+    
     
     % ----- plotting -----
-%     plot_velocity_uvw
-%     plot_totP_P13_P23
-%     plot_totP_LRC
-%     plot_LCR_P13_P23
-%     plot_1910_P_tau_S_L_C_R
-% plot_adv_utau_Pro
-%     plot_velocity
-plot_vertical_profiles
-
-%     figure(1);set(gcf,'Position',[0 0 1000 200 ])
-%     [c,h] = contourf(raddis,zc1,tot_P',-1.0:0.02:1.0);set(h,'edgecolor','none')
-%     colorbar;colormap jet
-%     caxis([-1 1])
-%     xlim([15 55])
-%     ylim([0 1.5])
-%     xlabel('Radius (km)')
-%     ylabel('Height (km)')
-%     title('Production of SFS Energy by Resolved Scales (m^2 s^-^2 s^-^1)')
-%     
-%     hold on
-%     contour(raddis,zc1,tot_P',[0,0],'linewidth',2,'linecolor','k')   %adding z
-%     
-%     figure(2);set(gcf,'Position',[0 0 1000 200 ])
-%     [c,h] = contourf(raddis,zc1,tang2',30:1:80);set(h,'edgecolor','none')
-%     colorbar;colormap jet
-%     xlim([15 55])
-%     ylim([0 1.5])
-%     xlabel('Radius (km)')
-%     ylabel('Height (km)')
-%     title('Tangential Winds (m/s)')
-%     
-%     
-%     save('new_mat','tang2','tot_P')
+    %     plot_velocity_uvw
+    %     plot_totP_P13_P23
+    %     plot_totP_LRC
+    %     plot_LCR_P13_P23
+    %     plot_1910_P_tau_S_L_C_R
+    %     plot_adv_utau_Pro
+    %     plot_velocity
+    plot_vertical_profiles
+    
+    %     figure(1);set(gcf,'Position',[0 0 1000 200 ])
+    %     [c,h] = contourf(raddis,zc1,tot_P',-1.0:0.02:1.0);set(h,'edgecolor','none')
+    %     colorbar;colormap jet
+    %     caxis([-1 1])
+    %     xlim([15 55])
+    %     ylim([0 1.5])
+    %     xlabel('Radius (km)')
+    %     ylabel('Height (km)')
+    %     title('Production of SFS Energy by Resolved Scales (m^2 s^-^2 s^-^1)')
+    %
+    %     hold on
+    %     contour(raddis,zc1,tot_P',[0,0],'linewidth',2,'linecolor','k')   %adding z
+    %
+    %     figure(2);set(gcf,'Position',[0 0 1000 200 ])
+    %     [c,h] = contourf(raddis,zc1,tang2',30:1:80);set(h,'edgecolor','none')
+    %     colorbar;colormap jet
+    %     xlim([15 55])
+    %     ylim([0 1.5])
+    %     xlabel('Radius (km)')
+    %     ylabel('Height (km)')
+    %     title('Tangential Winds (m/s)')
+    %
+    %
+    %     save('new_mat','tang2','tot_P')
 end

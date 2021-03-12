@@ -36,13 +36,18 @@ one_over_rho = repmat(1./rhoz',1,length(raddis));
 % 1/rho u dp/dr
 dpdr = 0.037441; % Pa/m
 
-% radl2 is the filtered u comp. of the wind
+% radl is the filtered u comp. of the wind (filtering_germano_azimean.m)
 pgf_r = (radl'.*one_over_rho.*dpdr)';
 
-
+if mean_rm
 % 1/rho u dp/dz
-dpdz = -10; % Pa/m
+dpdz = -0.5; % Pa/m
+else
+   % 1/rho u dp/dz
+dpdz = -10; % Pa/m 
+end
 
+% vert is the filtered w comp. of the wind (filtering_germano_azimean.m)
 % populate dpdz w/ dpdr for now so we can create plots
 pgf_z = (vert'.*one_over_rho.*dpdz)';
 

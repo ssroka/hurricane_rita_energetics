@@ -66,10 +66,10 @@ set(gcf,'color','w','position',[7          41        1277         764])
 %{
 figure(1)
 update_figure_paper_size()
-print(sprintf('imgs/1910_2030_2050_RC13'),'-dpdf')
+print(sprintf('imgs/1910_2030_2050_RC13_%d%s',window,mean_rm_str),'-dpdf')
 figure(2)
 update_figure_paper_size()
-print(sprintf('imgs/1910_2030_2050_RC23'),'-dpdf')
+print(sprintf('imgs/1910_2030_2050_RC23_%d%s',window,mean_rm_str),'-dpdf')
 
 %}
 

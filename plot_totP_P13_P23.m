@@ -95,7 +95,7 @@ set(gcf,'color','w','position',[7         344        1434         461])
 
 
 update_figure_paper_size()
-print(sprintf('imgs/%d_P13_P23',pp),'-dpdf')
+print(sprintf('imgs/%d_P13_P23_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 

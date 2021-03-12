@@ -100,7 +100,7 @@ for i = 1:size(cntr_bnds,1)
     adv_mean_prof   = nanmean(KE_bug_adv.*eddy_inds);
     dpdr_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds);
     dpdz_mean_prof  = nanmean(KE_bug_dpdz.*eddy_inds);
-    dqdt_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds);
+    dqdt_mean_prof  = nanmean(KE_bug_dqdt.*eddy_inds);
     
     
     plot(dpdr_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial r}$$');
@@ -118,7 +118,7 @@ for i = 1:size(cntr_bnds,1)
 end
 set(gcf,'color','w','position',[64           4        1266         791])
 update_figure_paper_size()
-print(sprintf('imgs/componsite_contours_%d_%d',pp,window),'-dpdf')
+print(sprintf('imgs/componsite_contours_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 figure(2)
@@ -144,7 +144,7 @@ for i = 1:size(cntr_bnds,1)
     % do a radial average, recall before transposing, 
     % radius changes down the rows
     dqdt_mean_prof = nanmean(KE_bug_dqdt.*eddy_inds);
-    dqdt_mPro_mean_prof = nanmean(KE_bug_dqdt-KE_bug_tot_P.*eddy_inds);
+    dqdt_mPro_mean_prof = nanmean((KE_bug_dqdt-KE_bug_tot_P).*eddy_inds);
 
     plot(dqdt_mean_prof,zc1,'linewidth',2,'displayname','$$\frac{\partial q}{\partial t}$$');
     hold on
@@ -158,7 +158,7 @@ for i = 1:size(cntr_bnds,1)
 end
 set(gcf,'color','w','position',[64           4        1266         791])
 update_figure_paper_size()
-print(sprintf('imgs/Pro_contrib_%d_%d',pp,window),'-dpdf')
+print(sprintf('imgs/Pro_contrib_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 figure(3)
