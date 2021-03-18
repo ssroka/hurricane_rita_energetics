@@ -20,6 +20,9 @@ switch pp
         x_bnds = [26 40];
         y_bnds = [0.3 1];
         
+         S_cntr = [7e-3 NaN NaN
+                  5e-3 5e-4 NaN
+                  0.06 0.12 0.05]';
     case 1910
         x_bnds = [38 54];
         y_bnds = [0.4 1];
@@ -144,8 +147,8 @@ for k0 = 1:3
 %     set(gcf,'position',[ 152          17        1209         362],'color','w')
   count = count + 1;
 end
-update_figure_paper_size()
-print(sprintf('imgs/%d_%s_total_%d%s',pp,'LRC',window,mean_rm_str),'-dpdf')
+% update_figure_paper_size()
+% print(sprintf('imgs/%d_%s_total_%d%s',pp,'LRC',window,mean_rm_str),'-dpdf')
   
 %%
 figure(k+1)

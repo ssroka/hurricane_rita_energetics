@@ -109,6 +109,7 @@ for i = 1:size(cntr_bnds,1)
     plot(uTau_mean_prof,zc1,'linewidth',2,'displayname','$$-2\frac{\partial}{\partial x_j}\overline{u_i}\tau_{ij}$$');
     plot(adv_mean_prof,zc1,'linewidth',2,'displayname','$$-\overline{u_j}\frac{\partial}{\partial x_j}\overline{q}^2$$');
     plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$2 \overline{S_{ij}}\tau_{ij}$$');
+    plot(dqdt_mean_prof,zc1,'linewidth',2,'displayname','$$\frac{\partial q}{\partial t}$$');
 
     ylim(y_bnds)
     set(gca,'fontsize',24)

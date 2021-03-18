@@ -1,9 +1,9 @@
 clear;close all;clc
 
 polar = false;
-mean_rm = true;
+mean_rm = false;
 
-for i = [5]
+for i = [2 4 5]
     switch i
         case 1
             tc_file = 'newiwrap-output-ku1-dz30m-rita9231740.mat';
@@ -28,6 +28,12 @@ for i = [5]
     get_rita_data	%module to read iwrap data and create mesh
     
     if ~polar	%across track mean = sector azimuthal mean
+        tang2 = double(tang2);
+        radl2 = double(radl2);
+        ww2 = double(ww2);
+        ref2 = double(ref2);
+        raddis = double(raddis);
+        
         tang2_plot_uvw = squeeze(nanmean(tang2(21,:,:),1));
         radl2_plot_uvw = squeeze(nanmean(radl2(21,:,:),1));
         ww2_plot_uvw = squeeze(nanmean(ww2(21,:,:),1));
@@ -88,20 +94,22 @@ for i = [5]
     calc_pressure_term
     disp('Done Pressure')
     
-    
     compute_fwd_back_scatter
     disp('Done Scatter')
     
     
     % ----- plotting -----
-    %     plot_velocity_uvw
-    %     plot_totP_P13_P23
-    %     plot_totP_LRC
-    %     plot_LCR_P13_P23
-    %     plot_1910_P_tau_S_L_C_R
-    %     plot_adv_utau_Pro
-    %     plot_velocity
-    plot_vertical_profiles
+%         plot_velocity_uvw
+%         plot_totP_P13_P23
+%         plot_totP_LRC
+%         plot_LCR_P13_P23
+%         plot_1910_P_tau_S_L_C_R
+%         plot_adv_utau_Pro
+%         plot_velocity
+%         plot_vertical_profiles
+%           plot_totP_normalized
+%           plot_LRC_rows
+          plot_strain_P
     
     %     figure(1);set(gcf,'Position',[0 0 1000 200 ])
     %     [c,h] = contourf(raddis,zc1,tot_P',-1.0:0.02:1.0);set(h,'edgecolor','none')
