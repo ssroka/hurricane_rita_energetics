@@ -77,10 +77,12 @@ for p = [1 2]
                     %                     FB_coords = [39.07 41.07 43.31 46.81];
                     %                     FB_coords = [39 41 43 45];
                     %                     FB_height = [0.69];
-                    FB_coords = [39.07 41.07 44.5 46.81];
+%                     FB_coords = [39.07 41.07 44.5 46.81];
+                    FB_coords = [39.07 41.07 43.5 46.81];
                     FB_height = [0.6];
                     line_end = [46.1 0.78; 47.6 0.51];
 %                     line_end = [45.56 0.87; 47.8 0.45];
+
             end
     end
     
@@ -144,7 +146,7 @@ for p = [1 2]
             %         [c,hH] = contour(raddis,zc1,sfs_tang',[2 2],'k--','linewidth',1);
             editFig(1,x_bnds,y_bnds)
             caxis([-1 1])
-            title(sprintf('%d, $$\\mathcal{P} $$ [m$$^2$$ s$$^{-2}$$ s$$^{-1}$$]',pp),'interpreter','latex')
+            title(sprintf('$$\\mathcal{P}y_*/(u_*^3) $$',pp),'interpreter','latex')
             
             %             [c,h1] = contour(raddis,zc1,tot_P',[1 1]*0.27,'b-','linewidth',3);
             %             [c,h1] = contour(raddis,zc1,tot_P',[1 1]*-0.27,'m-','linewidth',3);
@@ -197,7 +199,7 @@ if ismember(71,plot_figs)
     [c,h1] = contour(raddis,zc1,tot_P',[0 0]*tot_P_cntr(1),'w-','linewidth',3);
     % [c,h2] = contour(raddis,zc1,tot_P',[1 1]*tot_P_cntr(2),'k-','linewidth',3);
     legend([h1],sprintf('totP = %g',tot_P_cntr(1)))
-    title('$$\partial w/\partial r$$ [s$$^{-1}$$]','interpreter','latex')
+    title('$$\partial \overline{w}/\partial r$$ [s$$^{-1}$$]','interpreter','latex')
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
@@ -222,7 +224,7 @@ if ismember(81,plot_figs)
     colormap('jet')
     hold on
     [c,h1] = contour(raddis,zc1,tot_P',[0 0]*tot_P_cntr(1),'w-','linewidth',3);
-    title('$$ SFS vert \partial w/\partial r$$ [1/s]','interpreter','latex')
+    title('$$ SFS vert \overline{w}/\partial r$$ [1/s]','interpreter','latex')
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
@@ -253,7 +255,7 @@ if ismember(8,plot_figs)
     [c,h1] = contour(raddis,zc1,tot_P',[0 0]*tot_P_cntr(1),'w-','linewidth',3);
     %     [c,h1] = contour(raddis,zc1,tot_P',[1 1]*0.27,'b-','linewidth',3);
     %     [c,h1] = contour(raddis,zc1,tot_P',[1 1]*-0.27,'m-','linewidth',3);
-    title('$$\partial w/\partial r$$ [1/s]','interpreter','latex')
+    title('$$\partial \overline{w}/\partial r$$ [s$$^{-1}$$]','interpreter','latex')
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
@@ -279,7 +281,7 @@ if ismember(83,plot_figs)
     colormap('jet')
     hold on
     [c,h1] = contour(raddis,zc1,tot_P',[0 0]*tot_P_cntr(1),'w-','linewidth',3);
-    title('$$ from strain term \partial w/\partial r$$ [1/s]','interpreter','latex')
+    title('$$ from strain term \partial \overline{w}/\partial r$$ [1/s]','interpreter','latex')
     for i = 1:length(FB_coords)
         h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
     end
@@ -335,8 +337,9 @@ for i = 1:10
         continue
     end
     figure(i)
-    update_figure_paper_size()
-    print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{i},window,mean_rm_str),'-dpdf')
+    % uncomment to print
+%     update_figure_paper_size()
+%     print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{i},window,mean_rm_str),'-dpdf')
 end
 
 function [] = editFig(n,x_bnds,y_bnds)

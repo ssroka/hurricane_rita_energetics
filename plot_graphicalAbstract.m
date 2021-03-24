@@ -1,5 +1,9 @@
 close all;clc
 
+if pp~=2030
+    error('only for 2030')
+end
+
 switch pp
     case 1740
         x_bnds = [27 36];
@@ -96,48 +100,8 @@ subplot_inds = reshape(1:9,3,3)';% because subplot doesn't go in column major or
 % % eddy length scale
 % y_star = 2e3; % m or 2km which is the typical eddy length scale
 
-
 %%
-sum_P_2_plot = tot_P(x_ids,y_ids)';
-
-vars = {Strain_red,Pro_red./norm_totP};
-titles = {'\widetilde{\overline{S}}','\mathcal{P}'};
-units = {'[s$$^{-1}$$]',...
-         ''};
-norm_str = {'','y_*/u_*^3'};
-fig_name = {'S','P'};
-vars_clim_cell = {S_cntr,P_cntr};
-
-for k = 1:2
-    count = 1;
-    var = vars{k};
-    figure(k)
-    var_clim = vars_clim_cell{k};
-    for j = 1:3
-        for i = 1:j
-            %             if (i==2) && (j==2)
-            %                 continue
-            %             end
-            subplot(3,2,count)
-            Pro_2_plot = var(x_ids,y_ids,i,j)';
-            plot_cntr(raddis(x_ids),zc1(y_ids),Pro_2_plot,x_bnds,y_bnds,var_clim(i,j))
-            cor_coef = corr(sum_P_2_plot(:),Pro_2_plot(:),'rows','complete');
-            hold on
-            [c,hL] = contour(raddis(x_ids),zc1(y_ids),Pro_2_plot,[0 0],'w-','linewidth',3);
-            title(sprintf('$$%s_{%d %d}\\hspace{1mm}%s$$ %s, c = %3.2f',titles{k},i,j,norm_str{k},units{k},cor_coef),'interpreter','latex')
-            count = count + 1;
-            set(gca,'ylim',[0.4 1])
-        end
-    end
-    set(gcf,'color','w','position',[7          41        1396         764])
-    % uncomment to print
-%     update_figure_paper_size()
-%     print(sprintf('imgs/%s_%d_%d%s',fig_name{k},pp,window,mean_rm_str),'-dpdf')
-    
-end
-
-%%
-figure(3)
+figure(1)
 clim_bnd = P_clim_mag;
 var_plot = (tot_P./norm_totP);
 [c,h] = contourf(raddis,zc1,var_plot',[min(var_plot(:)) linspace(-clim_bnd,clim_bnd,150)]);
@@ -149,17 +113,20 @@ end
 set(h,'edgecolor','none')
 set(gca,'clim',[-1 1]*clim_bnd,'ytick',[0.4:0.2:1])
 editFig(1,x_bnds,y_bnds)
-title('$$ \mathcal{P}\hspace{1mm}y_*/u_*^3 $$','interpreter','latex')
 % h = text(FB_coords(1),FB_height,FB(1),'fontsize',30,'color',FB_clr(1));
-for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',30,'color',FB_clr(i));
-end
+% for i = 1:length(FB_coords)
+%     h = text(FB_coords(i),FB_height,FB(i),'fontsize',30,'color',FB_clr(i));
+% end
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
-set(gcf,'color','w','position',[428     4   902   300])
-% uncomment to print
-% update_figure_paper_size()
-% print(sprintf('imgs/totP_norm_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+set(gcf,'color','w','position',[0 0 600 500])
+
+
+xlim([36 42.5])
+axis off
+f = gca;
+set(gcf,'units','centimeters','position',[0 0 6 5])
+exportgraphics(f,'graphicalAbstract_JFM20S1881.jpg','Resolution',600)
 
 
 function [] = editFig(n,x_bnds,y_bnds)
@@ -171,7 +138,7 @@ if n == 1
     ylim(y_bnds)
     set(gca,'fontsize',20)
     set(gcf,'color','w','position',[85           4        1245         801])
-    colorbar
+%     colorbar
     xlabel('Radius [km]','interpreter','latex')
     ylabel('Height [km]','interpreter','latex')
     
@@ -181,7 +148,7 @@ else
         xlim(x_bnds)
         ylim(y_bnds)
         set(gca,'fontsize',20)
-        colorbar
+%         colorbar
         xlabel('Radius [km]','interpreter','latex')
         ylabel('Height [km]','interpreter','latex')
     end
@@ -214,7 +181,7 @@ else
     end
     c = [-1 1]*c_bnd;
 end
-colorbar
+% colorbar
 colormap('jet')
 % set(h,'edgecolor',[0.5 0.5 0.5])
 set(h,'edgecolor','none')

@@ -26,7 +26,6 @@ switch pp
     case 1910
         x_bnds = [38 54];
         y_bnds = [0.4 1];
-        
         P_cntr = [0.08 NaN NaN
                   0.04 0.016 NaN
                   0.35 0.2 0.15]';
@@ -55,6 +54,8 @@ y_ids = (zc1>y_bnds(1)) & (zc1<y_bnds(2));
 
 subplot_inds = reshape(1:9,3,3)';% because subplot doesn't go in column major order
 
+calc_u_star;
+
 %%
 figure(100)
 plot_cntr(raddis(x_ids),zc1(y_ids),tot_P(x_ids,y_ids)',x_bnds,y_bnds)
@@ -67,7 +68,7 @@ set(gcf,'color','w','position',[99         316        1086         271])
 sum_P_2_plot = tot_P(x_ids,y_ids)';
 
 vars = {tot_P, Pro_red,Tau_red,Strain_red,Leo_red,Rey_red,Cro_red};
-titles = {'totP','\mathcal{P}','\tau','\overline{S}','L','R','C'};
+titles = {'totP','\mathcal{P}','\tau','\widetilde{\overline{S}}','L','R','C'};
 units = {'[m$$^2$$ s$$^{-2}$$ s$$^{-1}$$]',...
     '[m$$^2$$ s$$^{-2}$$ s$$^{-1}$$]',...
     '[m$$^2$$ s$$^{-2}$$]',...
@@ -78,7 +79,7 @@ units = {'[m$$^2$$ s$$^{-2}$$ s$$^{-1}$$]',...
 fig_name = {'totP','P','tau','S','L','R','C'};
 vars_clim_cell = {[],P_cntr,tau_cntr,S_cntr,L_cntr,R_cntr,C_cntr};
 
-for k = 2:length(vars)
+for k = 4
     count = 1;
     var = vars{k};
     figure(k)
@@ -124,18 +125,25 @@ for k = 2:length(vars)
     
 
 end
+
 %%
 k = 7;
 k = k+1;
 count = 1;
-LRC_tot_bnd = [-5 10;-5 10;-5 10];
-    figure(k)
+LRC_tot_bnd = [-10*ones(3,1) 40*ones(3,1)];
+figure(k)
+var = zeros(size(vars{5},1),size(vars{5},2));
 for k0 = 1:3
     subplot(3,1,k0)
-    var = sum(sum(vars{4+count},4),3);
+    for i = 1:3
+        for j = 1:3
+            var = var + vars{4+count}(:,:,i,j);
+        end
+    end
+    
     var_clim = vars_clim_cell{4+count};
     Pro_2_plot = var(x_ids,y_ids)';
-    plot_cntr(raddis(x_ids),zc1(y_ids),Pro_2_plot,x_bnds,y_bnds,10,100)
+    plot_cntr(raddis(x_ids),zc1(y_ids),Pro_2_plot,x_bnds,y_bnds,LRC_tot_bnd(i,2),100)
     set(gca,'clim',LRC_tot_bnd(count,:));
     cor_coef = corr(sum_P_2_plot(:),Pro_2_plot(:),'rows','complete');
     hold on
@@ -147,8 +155,9 @@ for k0 = 1:3
 %     set(gcf,'position',[ 152          17        1209         362],'color','w')
   count = count + 1;
 end
+% uncomment to print
 % update_figure_paper_size()
-% print(sprintf('imgs/%d_%s_total_%d%s',pp,'LRC',window,mean_rm_str),'-dpdf')
+% print(sprintf('imgs/%d_LRC_total_%d%s',pp,window,mean_rm_str),'-dpdf')
   
 %%
 figure(k+1)
@@ -194,8 +203,9 @@ set(gcf,'color','w','position',[7          41        1396         764])
 
 for i = 1:length(vars)
     figure(i)
-    update_figure_paper_size()
-    print(sprintf('imgs/%d_%s_%d%s',pp,fig_name{i},window,mean_rm_str),'-dpdf')
+    % uncomment to print
+%     update_figure_paper_size()
+%     print(sprintf('imgs/%d_%s_%d%s',pp,fig_name{i},window,mean_rm_str),'-dpdf')
 end
 
 

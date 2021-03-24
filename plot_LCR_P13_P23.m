@@ -93,9 +93,9 @@ set(gca,'ytick',[0.4:0.2:1])
 set(gcf,'color','w','position',[7         344        1434         461])
 
 
-
-update_figure_paper_size()
-print(sprintf('imgs/%d_LRC_13_23_%d%s',pp,window,mean_rm_str),'-dpdf')
+% uncomment to print
+% update_figure_paper_size()
+% print(sprintf('imgs/%d_LRC_13_23_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 

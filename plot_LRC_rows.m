@@ -21,27 +21,8 @@ switch pp
         y_bnds = [0.4 1];
         
 end
-P_cntr = [0.08 NaN NaN
-    0.04 0.016 NaN
-    0.35 0.2 0.15]';
-tau_cntr = [25 NaN NaN
-    25 25 NaN
-    7 6 10]';
-S_cntr = [7e-3 NaN NaN
-    5e-3 5e-4 NaN
-    0.06 0.12 0.05]';
-%         L_cntr = [5 NaN NaN
-%                   2 NaN NaN
-%                   1 1.5 1];
-L_cntr = [8 NaN NaN
-    8 8 NaN
-    3.5 3.5 1]';
-R_cntr = [20 NaN NaN
-    10 20 NaN
-    5.5 5 6]';
-C_cntr = [7 NaN NaN
-    7 11 NaN
-    2.5 1.5 3]';
+
+clim_all = [-10 10];
 
 x_ids = (raddis>x_bnds(1)) & (raddis<x_bnds(2));
 y_ids = (zc1>y_bnds(1)) & (zc1<y_bnds(2));
@@ -49,12 +30,12 @@ y_ids = (zc1>y_bnds(1)) & (zc1<y_bnds(2));
 subplot_inds = reshape(1:9,3,3)';% because subplot doesn't go in column major order
 
 %%
-figure(100)
-plot_cntr(raddis(x_ids),zc1(y_ids),tot_P(x_ids,y_ids)',x_bnds,y_bnds)
-hold on
-[c,hL] = contour(raddis(x_ids),zc1(y_ids),tot_P(x_ids,y_ids)',[0 0],'w-','linewidth',3);
-title(sprintf('Production of SFS Energy, pass %d, [m$$^2$$ s$$^{-2}$$ s$$^{-1}$$]',pp),'interpreter','latex')
-set(gcf,'color','w','position',[99         316        1086         271])
+% figure(100)
+% plot_cntr(raddis(x_ids),zc1(y_ids),tot_P(x_ids,y_ids)',x_bnds,y_bnds)
+% hold on
+% [c,hL] = contour(raddis(x_ids),zc1(y_ids),tot_P(x_ids,y_ids)',[0 0],'w-','linewidth',3);
+% title(sprintf('Production of SFS Energy, pass %d, [m$$^2$$ s$$^{-2}$$ s$$^{-1}$$]',pp),'interpreter','latex')
+% set(gcf,'color','w','position',[99         316        1086         271])
 %%
 
 sum_P_2_plot = tot_P(x_ids,y_ids)';
@@ -67,13 +48,14 @@ units = {...
     '[m$$^2$$ s$$^{-2}$$]',...
     '[m$$^2$$ s$$^{-2}$$]'};
 fig_name = {'L','R','C','tau'};
-vars_clim_cell = {L_cntr,R_cntr,C_cntr,tau_cntr};
+% vars_clim_cell = {L_cntr,R_cntr,C_cntr,tau_cntr};
+
 
 for k = 1:length(vars)
     count = 1;
     var = vars{k};
     %     figure(k)
-    var_clim = vars_clim_cell{k};
+%     var_clim = vars_clim_cell{k};
     for j = 1:3
         for i = 1:j
             %             if (i==2) && (j==2)
@@ -81,13 +63,13 @@ for k = 1:length(vars)
             %             end
             subplot(6,length(vars),sub2ind([4,6],k,count))
             Pro_2_plot = var(x_ids,y_ids,i,j)';
-            plot_cntr(raddis(x_ids),zc1(y_ids),Pro_2_plot,x_bnds,y_bnds,10)
+            plot_cntr(raddis(x_ids),zc1(y_ids),Pro_2_plot,x_bnds,y_bnds,clim_all)
             cor_coef = corr(sum_P_2_plot(:),Pro_2_plot(:),'rows','complete');
             hold on
             [c,hL] = contour(raddis(x_ids),zc1(y_ids),Pro_2_plot,[0 0],'w-','linewidth',3);
             title(sprintf('$$%s_{%d %d}$$ %s, c = %3.2f',titles{k},i,j,units{k},cor_coef),'interpreter','latex')
             if k ==1
-                set(gca,'ytick',y_bnds)
+                set(gca,'ytick',y_bnds,'yticklabel',y_bnds)
                 ylabel('Height [km]','interpreter','latex')
             elseif k==length(vars)
                 colorbar
@@ -98,7 +80,7 @@ for k = 1:length(vars)
             end
             
             count = count + 1;
-            set(gca,'ylim',[0.4 1])
+            set(gca,'ylim',y_bnds)
             
         end
     end
@@ -128,24 +110,25 @@ for k = 1:length(vars)
     
 end
 
-addpath ~/Documents/MATLAB/util/tightfig/
-
-% tightfig(gcf)
 drawnow
 adjust_LRCTau_rows
-update_figure_paper_size()
-print(sprintf('imgs/LRCTau_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+% uncomment to print
+% update_figure_paper_size()
+% print(sprintf('imgs/LRCTau_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 function [] = plot_cntr(raddis,zc1,tot_P,x_bnds,y_bnds,c_bnd,n_lvl)
 % c2 = prctile(tot_P(:),[5 95]);
-
-if (nargin >6) & ~isnan(c_bnd)
+if numel(c_bnd)<2
     c = [-1 1]*c_bnd;
+else
+    c = c_bnd;
+end
+if (nargin >6) & ~isnan(c_bnd)
+    
     [~,h] = contourf(raddis,zc1,tot_P,[min(tot_P(:)) linspace(c(1),c(2),n_lvl)]);
     
 elseif (nargin >5) & ~isnan(c_bnd)
-    c = [-1 1]*c_bnd;
     [~,h] = contourf(raddis,zc1,tot_P,[min(tot_P(:)) linspace(c(1),c(2),100)]);
     
 else

@@ -1,4 +1,3 @@
-close all
 
 % switch pp
 %     case 1740
@@ -27,11 +26,20 @@ switch pp
         x_bnds = [31 45];
         y_bnds = [0.3 1];
         eddy_cntr = 61;
-        FB = ['BFBF'];
-        FB_coords = [35.2 38 41 43.57];
+        %         FB = ['BFBF'];
+        FB = ['BF'];
+        %         FB_coords = [35.2 38 41 43.57];
+        %         FB_height = [0.69];
+        %                 cntr_bnds = [34.5 37;36 40;40 42; 42 44];
+        
+%         FB_coords = [41 43];
+%         FB_height = [0.69];
+%         cntr_bnds = [40 42; 42 44];
+        
+                FB_coords = [41 38];
         FB_height = [0.69];
-                cntr_bnds = [34.5 37;36 40;40 42; 42 44];
-
+        cntr_bnds = [40 42; 36 40];
+        
         
     case 2145
         x_bnds = [32 45];
@@ -51,36 +59,53 @@ switch pp
         FB_height = [0.42];
         FB = ['BFBF'];
         FB_coords = [26.4 28 30.44 33.7];
-                cntr_bnds = [26 27.5;27 29;29 32.7; 32.7 35];
-
+        cntr_bnds = [26 27.5;27 29;29 32.7; 32.7 35];
+        
         
     case 1910
         x_bnds = [38 54.8];
         y_bnds = [0.4 1];
         eddy_cntr = 55;
-        FB = ['BFBF'];
+        %         FB = ['BFBF'];
+        FB = ['BF'];
         %                     FB_coords = [39.07 41.07 43.31 46.81];
         %                     FB_coords = [39 41 43 45];
         %                     FB_height = [0.69];
-        FB_coords = [39.07 41.07 44.5 46.81];
+        %         FB_coords = [39.07 41.07 44.5 46.81];
+        
+%         FB_coords = [39 41.5];
+%         FB_height = [0.6];
+%         line_end = [46.1 0.78; 47.6 0.51];
+%         %                     line_end = [45.56 0.87; 47.8 0.45];
+%         %         cntr_bnds = [38 42;40 43;41 47; 44 49];
+%         cntr_bnds = [38 42;40 43];
+        
+        FB_coords = [39 47];
         FB_height = [0.6];
-        line_end = [46.1 0.78; 47.6 0.51];
+        line_end = [46.1 0.78; 44 49];
         %                     line_end = [45.56 0.87; 47.8 0.45];
-        cntr_bnds = [38 42;40 43;41 47; 44 49];
+        %         cntr_bnds = [38 42;40 43;41 47; 44 49];
+        cntr_bnds = [38 42;44 50];
+        
 end
 
 tot_P_plot = tot_P';
 tot_P_plot(zc1>1.0,:) = NaN;
 
 %%
-figure(1)
+figure(pp)
 for i = 1:size(cntr_bnds,1)
     if strcmp(FB(i),'B')
         s = -1;
     else
         s = 1;
     end
-    subplot(2,2,i)
+    if mean_rm
+        row_const = 2; % plot mean removed in second row
+    else
+        row_const = 0; % plot mean not removed in first row
+    end
+    subplot(2,2,i+row_const)
     r_ind_min = find(raddis > cntr_bnds(i,1),1,'first');
     r_ind_max = find(raddis < cntr_bnds(i,2),1,'last');
     P_inds = s*tot_P>0;
@@ -93,7 +118,7 @@ for i = 1:size(cntr_bnds,1)
     % change zeros to NaN so that nanmean works
     eddy_inds(eddy_inds==0) = NaN;
     
-    % do a radial average, recall before transposing, 
+    % do a radial average, recall before transposing,
     % radius changes down the rows
     tot_P_mean_prof = nanmean(KE_bug_tot_P.*eddy_inds);
     uTau_mean_prof  = nanmean(KE_bug_uTau.*eddy_inds);
@@ -101,27 +126,58 @@ for i = 1:size(cntr_bnds,1)
     dpdr_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds);
     dpdz_mean_prof  = nanmean(KE_bug_dpdz.*eddy_inds);
     dqdt_mean_prof  = nanmean(KE_bug_dqdt.*eddy_inds);
+    g_mean_prof  = nanmean(KE_bug_g.*eddy_inds);
     
+    % combine pressure terms
+    pgf_mean_prof = dpdr_mean_prof + dpdz_mean_prof;
     
-    plot(dpdr_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}u\frac{\partial p}{\partial r}$$');
-    hold on
-    plot(dpdz_mean_prof,zc1,'linewidth',2,'displayname','$$-\frac{2}{\rho}w\frac{\partial p}{\partial z}$$');
-    plot(uTau_mean_prof,zc1,'linewidth',2,'displayname','$$-2\frac{\partial}{\partial x_j}\overline{u_i}\tau_{ij}$$');
-    plot(adv_mean_prof,zc1,'linewidth',2,'displayname','$$-\overline{u_j}\frac{\partial}{\partial x_j}\overline{q}^2$$');
-    plot(tot_P_mean_prof,zc1,'linewidth',2,'displayname','$$2 \overline{S_{ij}}\tau_{ij}$$');
-    plot(dqdt_mean_prof,zc1,'linewidth',2,'displayname','$$\frac{\partial q}{\partial t}$$');
-
+    if mean_rm
+        plot(uTau_mean_prof,zc1,'m','linewidth',2,'displayname','SFS transport');
+        hold on
+        plot(adv_mean_prof,zc1,'g','linewidth',2,'displayname','$$-$$ADV');
+        plot(tot_P_mean_prof,zc1,'b','linewidth',2,'displayname','$$2 \mathcal{P}$$');
+        plot(dqdt_mean_prof,zc1,'k--','linewidth',2,'displayname','$$\frac{\partial \widetilde{\overline{q}}^2}{\partial t}$$');
+    else
+        plot(g_mean_prof,zc1,'color',[128,128,128]./256,'linewidth',2,'displayname','$$-2g\widetilde{\overline{w}}$$');
+        hold on
+        plot(pgf_mean_prof,zc1,'color',[255, 165, 0]./256,'linewidth',2,'displayname','PGF');
+        plot(uTau_mean_prof,zc1,'m','linewidth',2,'displayname','SFS transport');
+        plot(adv_mean_prof,zc1,'g','linewidth',2,'displayname','$$-$$ADV');
+        plot(tot_P_mean_prof,zc1,'b','linewidth',2,'displayname','$$2 \mathcal{P}$$');
+        plot(dqdt_mean_prof,zc1,'k--','linewidth',2,'displayname','$$\frac{\partial \widetilde{\overline{q}}^2}{\partial t}$$');
+    end
+    
     ylim(y_bnds)
     set(gca,'fontsize',24)
-    ylabel('Height [km]','interpreter','latex')
-    legend('location','eastoutside','interpreter','latex')
-    title(sprintf('%d: %s eddy at %2.1f',pp,FB(i),mean(cntr_bnds(i,:))))
+    xlabel('[m$$^2$$ s$$^{-3}$$]','interpreter','latex')
+    if ismember(i,[1 3])
+        ylabel('Height [km]','interpreter','latex')
+    end
+    title(sprintf('%s at r=%2.1f km',FB(i),FB_coords(i)),'interpreter','latex')
 end
-set(gcf,'color','w','position',[64           4        1266         791])
-update_figure_paper_size()
-print(sprintf('imgs/componsite_contours_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+
+if mean_rm
+    plt_title_2 = sprintf('Mean Removed');
+    set(gcf,'color','w','position',[64         115        1184         680])
+    subplot(2,2,1)
+    lh = legend('location','northwest','interpreter','latex');
+    h = gcf;
+    drawnow
+    rearrange_figure(h,lh,'2x2_1_legend',plt_title_1,plt_title_2)
+    % drawnow
+    
+    %{
+    uncomment to print
+    update_figure_paper_size()
+    print(sprintf('imgs/componsite_contours_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+    %}
+else
+    plt_title_1 = sprintf('%d, KE Budget Terms',pp);
+end
 
 %%
+%{
+% plot diff between dqdt and the SFS production
 figure(2)
 for i = 1:size(cntr_bnds,1)
     if strcmp(FB(i),'B')
@@ -142,7 +198,7 @@ for i = 1:size(cntr_bnds,1)
     % change zeros to NaN so that nanmean works
     eddy_inds(eddy_inds==0) = NaN;
     
-    % do a radial average, recall before transposing, 
+    % do a radial average, recall before transposing,
     % radius changes down the rows
     dqdt_mean_prof = nanmean(KE_bug_dqdt.*eddy_inds);
     dqdt_mPro_mean_prof = nanmean((KE_bug_dqdt-KE_bug_tot_P).*eddy_inds);
@@ -158,22 +214,13 @@ for i = 1:size(cntr_bnds,1)
     title(sprintf('%d: %s eddy at %2.1f',pp,FB(i),mean(cntr_bnds(i,:))))
 end
 set(gcf,'color','w','position',[64           4        1266         791])
-update_figure_paper_size()
-print(sprintf('imgs/Pro_contrib_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
-
+% uncomment to print
+% update_figure_paper_size()
+% print(sprintf('imgs/Pro_contrib_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+%
 %%
-figure(3)
-[c,h] = contourf(raddis,zc1,KE_bug_tot_P',[-1.5:0.01:1.5]);
-set(h,'edgecolor','none')
-editFig(1,x_bnds,y_bnds)
-colormap('jet')
-hold on
-[c,h1] = contour(raddis,zc1,2*-tot_P_plot,[-1 1]*0.0,'w-','linewidth',3);
 
-title('$$2 \overline{S_{ij}}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','latex')
-for i = 1:length(FB_coords)
-    h = text(FB_coords(i),FB_height,FB(i),'fontsize',50);
-end
+%}
 %%
 function [] = editFig(n,x_bnds,y_bnds)
 if nargin <3

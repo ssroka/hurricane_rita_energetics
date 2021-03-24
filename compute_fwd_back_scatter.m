@@ -11,12 +11,21 @@ tot_P = sum(sum(Pro,Ndim),d2);
 tot_adv =  sum(sum(advection,Ndim),d2);
 tot_utau =  sum(sum(utau,Ndim),d2);
 
+g = 9.81;% m/s/s
+
 KE_bug_tot_P = -2*tot_P;
 KE_bug_uTau = -2*tot_utau;
 KE_bug_adv = -tot_adv;
-KE_bug_dpdr = -2*pgf_r;
-KE_bug_dpdz = -2*pgf_z;
-KE_bug_dqdt = KE_bug_adv+KE_bug_dpdr+KE_bug_tot_P+KE_bug_uTau+KE_bug_dpdz;
+if mean_rm
+    KE_bug_dpdr = 0*tot_adv;
+    KE_bug_dpdz = 0*tot_adv;
+    KE_bug_g = 0*tot_adv;
+else
+    KE_bug_dpdr = -2*pgf_r;
+    KE_bug_dpdz = -2*pgf_z;
+    KE_bug_g = -2*g*vert;
+end
+KE_bug_dqdt = KE_bug_adv+KE_bug_dpdr+KE_bug_tot_P+KE_bug_uTau+KE_bug_dpdz+KE_bug_g;
 
 %%Pforward = 0.5*(tot_P + abs(tot_P));	%positive production of SFS energy, forwardscatter
 %%Pbackward = 0.5*(tot_P - abs(tot_P));	%negative production of SFS energy, backscatter
@@ -49,6 +58,7 @@ KE_bug_adv = KE_bug_adv(ind,:);
 KE_bug_dpdr = KE_bug_dpdr(ind,:);
 KE_bug_dpdz = KE_bug_dpdz(ind,:);
 KE_bug_dqdt = KE_bug_dqdt(ind,:);
+KE_bug_g = KE_bug_g(ind,:);
 
 
 clear Pro_red Tau_red Strain_red Leo_red Rey_red Cro_red  

@@ -1,8 +1,5 @@
 close all
 
-addpath /Users/ssroka/Documents/MATLAB/util/contourfcmap_dir/contourfcmap
-addpath /Users/ssroka/Documents/MATLAB/util/contourfcmap_dir
-
 % switch pp
 %     case 1740
 %         x_bnds = [23 53];
@@ -84,8 +81,6 @@ for i = 1:length(FB_coords)
 end
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
-% update_figure_paper_size()
-% print(sprintf('imgs/dpdr_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 %%
 if mean_rm
     dpdz_clim = 3;
@@ -105,8 +100,6 @@ for i = 1:length(FB_coords)
 end
 hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
-% update_figure_paper_size()
-% print(sprintf('imgs/dpdz_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 %%
 subplot(3,2,3)
 if mean_rm
@@ -129,16 +122,8 @@ title('$$-2\frac{\partial}{\partial x_j} \overline{u_i} \tau_{ij}$$ [m$$^2$$s$$^
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
-% update_figure_paper_size()
-% print(sprintf('imgs/utau_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 %%
 subplot(3,2,4)
-% if mean_rm
-%     uTau_clim = 3;
-% else
-%     uTau_clim = 5;
-% end
-% min_totP = min(-2*KE_bug_tot_P(:));
 
 [c,h] = contourf(raddis,zc1,KE_bug_tot_P',[-1.75:0.01:1.75]);
 set(h,'edgecolor','none')
@@ -151,8 +136,6 @@ title('$$2 \overline{S_{ij}}\tau_{ij}$$ [m$$^2$$s$$^{-3}$$]','interpreter','late
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
-% update_figure_paper_size()
-% print(sprintf('imgs/totP_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 subplot(3,2,5)
@@ -183,8 +166,6 @@ title('$$-\overline{u_j}\frac{\partial}{\partial x_j} \overline{q}^2$$ [m$$^2$$s
 for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
-% update_figure_paper_size()
-% print(sprintf('imgs/advection_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 %%
@@ -216,9 +197,9 @@ for i = 1:length(FB_coords)
     h = text(FB_coords(i),FB_height,FB(i),'fontsize',25);
 end
 
-
-update_figure_paper_size()
-print(sprintf('imgs/totbudget_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+% uncomment to print
+% update_figure_paper_size()
+% print(sprintf('imgs/totbudget_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 %%
 figure(2)
@@ -254,9 +235,9 @@ xlabel('Radius [km]','interpreter','latex')
 ylabel('Height [km]','interpreter','latex')
 set(gcf,'color','w','position',[428     4   902   300])
 
-
-update_figure_paper_size()
-print(sprintf('imgs/dqdt_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+% uncomment to print
+% update_figure_paper_size()
+% print(sprintf('imgs/dqdt_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 %%

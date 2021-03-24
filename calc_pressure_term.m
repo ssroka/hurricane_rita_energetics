@@ -33,18 +33,27 @@ rhoz = rhoz_bar.*exp(-1*zc1/H);
 
 one_over_rho = repmat(1./rhoz',1,length(raddis));
 
+
+
+
+if mean_rm
+% 1/rho u dp/dz
+dpdz = -0.5; % Pa/m
+
+% 1/rho u dp/dr
+dpdr = 0; % Pa/m
+
+% radl is the filtered u comp. of the wind (filtering_germano_azimean.m)
+pgf_r = (radl'.*one_over_rho.*dpdr)';
+else
+   % 1/rho u dp/dz
+dpdz = -10; % Pa/m 
+
 % 1/rho u dp/dr
 dpdr = 0.037441; % Pa/m
 
 % radl is the filtered u comp. of the wind (filtering_germano_azimean.m)
 pgf_r = (radl'.*one_over_rho.*dpdr)';
-
-if mean_rm
-% 1/rho u dp/dz
-dpdz = -0.5; % Pa/m
-else
-   % 1/rho u dp/dz
-dpdz = -10; % Pa/m 
 end
 
 % vert is the filtered w comp. of the wind (filtering_germano_azimean.m)

@@ -2,8 +2,6 @@ close all
 
 plot_full_flag = true;
 
-addpath('~/Documents/MATLAB/util/othercolor/')
-
 fig_str = {...
     'uvw_velocity_full_w'
     'uvw_velocity_perturb_full'
@@ -113,7 +111,7 @@ plot_rad(raddis,zc1,radl2_plot_uvw,cb(1,:))
 % end
 hold on
 [c,h1] = contour(raddis,zc1,radl2_plot_uvw',[1 1]*0,'k:','linewidth',3);
-set(gca,'colormap',othercolor(193))
+set(gca,'colormap',jet)
 
 subplot(3,1,2)
 plot_tang(raddis,zc1,tang2_plot_uvw,cb(2,:))
@@ -144,9 +142,9 @@ for j = 1:3
 end
 
 
-% 
-update_figure_paper_size()
-print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{1},window,mean_rm_str),'-dpdf')
+% uncomment to print
+% update_figure_paper_size()
+% print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{1},window,mean_rm_str),'-dpdf')
 
 function [] = editFig(n,x_bnds,y_bnds)
 if nargin <3
