@@ -1,7 +1,9 @@
-clear;close all;clc
+%%clear;close all;clc
+clear;clc
 
 polar = false;
 mean_rm_vec = false;
+dospectra = false;
 
 % plot u,v,w contour plots
 plt_uvw = false;
@@ -37,24 +39,26 @@ if plt_vert_prof
     mean_rm_vec = [false true];
 end
 
-for i = [2]
+
+for i = [5]
+>>>>>>> 25423708ef63fe01ff28c44de6be07b4e22ba31c
     switch i
         case 1
             tc_file = 'newiwrap-output-ku1-dz30m-rita9231740.mat';
-            pp = 1740;
+            pp = 1740
         case 2
             tc_file = 'newiwrap-output-ku1-dz30m-rita9222030.mat';
-            pp = 2030;
+            pp = 2030
         case 3
             tc_file = 'newiwrap-output-ku1-dz30m-rita9222140.mat';
-            pp = 2145;
+            pp = 2145
             %%tc_file2 = 'newiwrap-output-ku1-dz30m-rita9222150.mat';pp = 2145; %this represents a small portion of the total leg
         case 4
             tc_file = 'newiwrap-output-ku1-dz30m-rita9232050.mat';
-            pp = 2050;
+            pp = 2050
         case 5
             tc_file = 'newiwrap-output-ku1-dz30m-rita9221910.mat';
-            pp = 1910;
+            pp = 1910
     end
     for i_mean_rm = 1:length(mean_rm_vec)
         mean_rm = mean_rm_vec(i_mean_rm);
@@ -103,6 +107,10 @@ for i = [2]
         vert = ww2;
         ref = ref2;
         radius = shiftdim(radius);
+
+        if dospectra
+           spectra
+        end
         
         if polar
             polargrid
@@ -190,3 +198,8 @@ end
 %
 %
 %     save('new_mat','tang2','tot_P')
+    
+
+% ALL THE CODE ABOVE HAS BEEN CHECKED MANY TIMES AND IT LOOKS GOOD, SRG 3/18/21
+    
+end

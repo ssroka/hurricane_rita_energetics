@@ -150,6 +150,8 @@ advection(:,k,3,1) = 0.0;
 advection(:,k,3,2) = 0.0;
 advection(:,k,3,3) = 0.0;
 
+%Note, the radius variable cancels in the radial terms, so only ddr is needed
+
 utau(:,k,1,1) = ddr(Tau(:,k,1,1).*fradl,DR);
 utau(:,k,1,2) = -Tau(:,k,2,2).*fradl./radius;
 utau(:,k,1,3) = ddz(Tau(:,k,1,3).*fradl,...

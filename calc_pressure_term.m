@@ -26,7 +26,6 @@ fprintf('The fitted slope is %f Pa/m\n',dpdr_SI)
 
 
 % rho profile
-%Anelastic mass continuity and variation evaluations
 rhoz_bar = 1.275;               %kg/m^3 (Wallace and Hobbs, 1977)
 H = 6.90;                   %km, scale height (Wallace and Hobbs, 1977)
 rhoz = rhoz_bar.*exp(-1*zc1/H);
