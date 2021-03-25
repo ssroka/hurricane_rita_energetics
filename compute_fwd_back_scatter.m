@@ -1,6 +1,3 @@
-% %Total sub-filter-scale fluxes, units of m^2 s^-2
-% Tau = Leo + Cro + Rey;
-
 %Production of sub-filter-scale energy by resolved scales, units of m^2 s^-2 s^-1 (kinetic energy time tendency)
 Pro = -1*(Tau.*Strain);
 
@@ -11,6 +8,7 @@ tot_P = sum(sum(Pro,Ndim),d2);
 tot_adv =  sum(sum(advection,Ndim),d2);
 tot_utau =  sum(sum(utau,Ndim),d2);
 
+%NOTE: THE TERMS BELOW ARE ALL ON THE RHS OF THE KE EQUATION. SEE NOTES FOR FULL EQUATION
 KE_bug_tot_P = -2*tot_P;
 KE_bug_uTau = -2*tot_utau;
 KE_bug_adv = -tot_adv;

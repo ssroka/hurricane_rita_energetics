@@ -1,26 +1,28 @@
-clear;close all;clc
+%%clear;close all;clc
+clear;clc
 
 polar = false;
 mean_rm = false;
+dospectra = false;
 
-for i = [2 4 5]
+for i = [5]
     switch i
         case 1
             tc_file = 'newiwrap-output-ku1-dz30m-rita9231740.mat';
-            pp = 1740;
+            pp = 1740
         case 2
             tc_file = 'newiwrap-output-ku1-dz30m-rita9222030.mat';
-            pp = 2030;
+            pp = 2030
         case 3
             tc_file = 'newiwrap-output-ku1-dz30m-rita9222140.mat';
-            pp = 2145;
+            pp = 2145
             %%tc_file2 = 'newiwrap-output-ku1-dz30m-rita9222150.mat';pp = 2145; %this represents a small portion of the total leg
         case 4
             tc_file = 'newiwrap-output-ku1-dz30m-rita9232050.mat';
-            pp = 2050;
+            pp = 2050
         case 5
             tc_file = 'newiwrap-output-ku1-dz30m-rita9221910.mat';
-            pp = 1910;
+            pp = 1910
     end
     
     load(tc_file)
@@ -68,7 +70,11 @@ for i = [2 4 5]
     vert = ww2;
     ref = ref2;
     radius = shiftdim(radius);
-    
+
+    if dospectra
+       spectra
+    end
+
     if polar
         polargrid
         disp('Done polar grid')
@@ -97,6 +103,8 @@ for i = [2 4 5]
     compute_fwd_back_scatter
     disp('Done Scatter')
     
+
+% ALL THE CODE ABOVE HAS BEEN CHECKED MANY TIMES AND IT LOOKS GOOD, SRG 3/18/21
     
     % ----- plotting -----
 %         plot_velocity_uvw
@@ -106,10 +114,10 @@ for i = [2 4 5]
 %         plot_1910_P_tau_S_L_C_R
 %         plot_adv_utau_Pro
 %         plot_velocity
-%         plot_vertical_profiles
+         plot_vertical_profiles
 %           plot_totP_normalized
 %           plot_LRC_rows
-          plot_strain_P
+%          plot_strain_P
     
     %     figure(1);set(gcf,'Position',[0 0 1000 200 ])
     %     [c,h] = contourf(raddis,zc1,tot_P',-1.0:0.02:1.0);set(h,'edgecolor','none')
