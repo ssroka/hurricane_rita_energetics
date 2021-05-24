@@ -9,7 +9,8 @@ dospectra = false;
 plt_uvw = false;
 
 % KE budget figures
-plt_vert_prof = false;
+plt_kebug = true;
+plt_vert_prof = true;
 
 % plot set of 6 Strain, 6 P, and 1 norm totP
 plt_S_P = false;
@@ -24,7 +25,7 @@ plt_vel = false;
 plt_totLRC = false;
 
 % plot graphical abstract
-plt_graphAbs = true;
+plt_graphAbs = false;
 
 
 u_star_mean_global = 0.9598; % mean of u_star from 1910, 2030, 2040
@@ -41,7 +42,6 @@ end
 
 
 for i = [5]
->>>>>>> 25423708ef63fe01ff28c44de6be07b4e22ba31c
     switch i
         case 1
             tc_file = 'newiwrap-output-ku1-dz30m-rita9231740.mat';
@@ -60,6 +60,8 @@ for i = [5]
             tc_file = 'newiwrap-output-ku1-dz30m-rita9221910.mat';
             pp = 1910
     end
+
+
     for i_mean_rm = 1:length(mean_rm_vec)
         mean_rm = mean_rm_vec(i_mean_rm);
         load(tc_file)
@@ -143,6 +145,8 @@ for i = [5]
         if plt_uvw;       plot_velocity_uvw;       end
         
         if plt_vel;       plot_velocity;           end
+  
+        if plt_kebug;	  plot_kebudget;	   end
         
         if plt_vert_prof; plot_vertical_profiles;  end
         
@@ -201,5 +205,3 @@ end
     
 
 % ALL THE CODE ABOVE HAS BEEN CHECKED MANY TIMES AND IT LOOKS GOOD, SRG 3/18/21
-    
-end

@@ -57,7 +57,6 @@ KE_bug_dpdz = KE_bug_dpdz(ind,:);
 KE_bug_dqdt = KE_bug_dqdt(ind,:);
 KE_bug_g = KE_bug_g(ind,:);
 
-
 clear Pro_red Tau_red Strain_red Leo_red Rey_red Cro_red  
 clear term1_red term3_red term5_red term7_red term9_red
 clear term2_red term4_red term6_red term8_red term10_red
