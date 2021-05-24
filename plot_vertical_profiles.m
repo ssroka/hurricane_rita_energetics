@@ -16,6 +16,8 @@
 %         x_bnds = [23 55];
 %         y_bnds = [0.3 1];
 % end
+if ismember(pp,[1910 2030])
+addpath ~/Documents/MATLAB/util
 switch pp
     case 1740
         x_bnds = [27 36];
@@ -120,31 +122,40 @@ for i = 1:size(cntr_bnds,1)
     
     % do a radial average, recall before transposing,
     % radius changes down the rows
-    tot_P_mean_prof = nanmean(KE_bug_tot_P.*eddy_inds);
-    uTau_mean_prof  = nanmean(KE_bug_uTau.*eddy_inds);
-    adv_mean_prof   = nanmean(KE_bug_adv.*eddy_inds);
-    dpdr_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds);
-    dpdz_mean_prof  = nanmean(KE_bug_dpdz.*eddy_inds);
-    dqdt_mean_prof  = nanmean(KE_bug_dqdt.*eddy_inds);
-    g_mean_prof  = nanmean(KE_bug_g.*eddy_inds);
+    tot_P_mean_prof = nanmean(KE_bug_tot_P.*eddy_inds)./norm_totP;
+    uTau_mean_prof  = nanmean(KE_bug_uTau.*eddy_inds)./norm_totP;
+    adv_mean_prof   = nanmean(KE_bug_adv.*eddy_inds)./norm_totP;
+    dpdr_mean_prof  = nanmean(KE_bug_dpdr.*eddy_inds)./norm_totP;
+    dpdz_mean_prof  = nanmean(KE_bug_dpdz.*eddy_inds)./norm_totP;
+    dqdt_mean_prof  = nanmean(KE_bug_dqdt.*eddy_inds)./norm_totP;
+    g_mean_prof  = nanmean(KE_bug_g.*eddy_inds)./norm_totP;
     
     % combine pressure terms
     pgf_mean_prof = dpdr_mean_prof + dpdz_mean_prof;
     
     if mean_rm
-        plot(uTau_mean_prof,zc1,'m','linewidth',2,'displayname','SFS transport');
+        plot(uTau_mean_prof,zc1,'m','linewidth',2,'displayname','SFS transport $\times y_*/u_*^3$');
         hold on
-        plot(adv_mean_prof,zc1,'g','linewidth',2,'displayname','$$-$$ADV');
-        plot(tot_P_mean_prof,zc1,'b','linewidth',2,'displayname','$$2 \mathcal{P}$$');
-        plot(dqdt_mean_prof,zc1,'k--','linewidth',2,'displayname','$$\frac{\partial \widetilde{\overline{q}}^2}{\partial t}$$');
+        plot(adv_mean_prof,zc1,'g','linewidth',2,'displayname','$$-$$ADV $\times y_*/u_*^3$');
+        plot(tot_P_mean_prof,zc1,'b','linewidth',2,'displayname','$$2 \mathcal{P}$$ $\times y_*/u_*^3$');
+        plot(dqdt_mean_prof,zc1,'k--','linewidth',2,'displayname','$$\frac{\partial \widetilde{\overline{q}}^2}{\partial t}$$ $\times y_*/u_*^3$');
+        
+        uTau_avg_prof = nanmean(uTau_mean_prof);
+        adv_avg_prof = nanmean(adv_mean_prof);
+        tot_P_avg_prof = nanmean(tot_P_mean_prof);
+        dqdt_avg_prof = nanmean(dqdt_mean_prof);
+        
+        save(sprintf('%d_%s',pp,FB(i)),'uTau_avg_prof','adv_avg_prof',...
+            'tot_P_avg_prof','dqdt_avg_prof');
+        
     else
-        plot(g_mean_prof,zc1,'color',[128,128,128]./256,'linewidth',2,'displayname','$$-2g\widetilde{\overline{w}}$$');
+        plot(g_mean_prof,zc1,'color',[128,128,128]./256,'linewidth',2,'displayname','$$-2g\widetilde{\overline{w}}$$ $\times y_*/u_*^3$');
         hold on
-        plot(pgf_mean_prof,zc1,'color',[255, 165, 0]./256,'linewidth',2,'displayname','PGF');
-        plot(uTau_mean_prof,zc1,'m','linewidth',2,'displayname','SFS transport');
-        plot(adv_mean_prof,zc1,'g','linewidth',2,'displayname','$$-$$ADV');
-        plot(tot_P_mean_prof,zc1,'b','linewidth',2,'displayname','$$2 \mathcal{P}$$');
-        plot(dqdt_mean_prof,zc1,'k--','linewidth',2,'displayname','$$\frac{\partial \widetilde{\overline{q}}^2}{\partial t}$$');
+        plot(pgf_mean_prof,zc1,'color',[255, 165, 0]./256,'linewidth',2,'displayname','PGF $\times y_*/u_*^3$');
+        plot(uTau_mean_prof,zc1,'m','linewidth',2,'displayname','SFS transport $\times y_*/u_*^3$');
+        plot(adv_mean_prof,zc1,'g','linewidth',2,'displayname','$$-$$ADV $\times y_*/u_*^3$');
+        plot(tot_P_mean_prof,zc1,'b','linewidth',2,'displayname','$$2 \mathcal{P}$$ $\times y_*/u_*^3$');
+        plot(dqdt_mean_prof,zc1,'k--','linewidth',2,'displayname','$$\frac{\partial \widetilde{\overline{q}}^2}{\partial t}$$ $\times y_*/u_*^3$');
     end
     
     ylim(y_bnds)
@@ -166,15 +177,17 @@ if mean_rm
     rearrange_figure(h,lh,'2x2_1_legend',plt_title_1,plt_title_2)
     % drawnow
     
-    %{
-    uncomment to print
+    
+    %uncomment to print
     update_figure_paper_size()
     print(sprintf('imgs/componsite_contours_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
     %}
 else
     plt_title_1 = sprintf('%d, KE Budget Terms',pp);
 end
-
+else
+    disp('only vertical profiles for 1910 or 2030')
+end
 %%
 %{
 % plot diff between dqdt and the SFS production

@@ -1,8 +1,8 @@
 close all;clc
 
 if pp~=2030
-    error('only for 2030')
-end
+   disp('graphical abstract only for 2030')
+else
 
 switch pp
     case 1740
@@ -128,6 +128,7 @@ f = gca;
 set(gcf,'units','centimeters','position',[0 0 6 5])
 exportgraphics(f,'graphicalAbstract_JFM20S1881.jpg','Resolution',600)
 
+end
 
 function [] = editFig(n,x_bnds,y_bnds)
 if nargin <3

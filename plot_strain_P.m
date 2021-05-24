@@ -35,7 +35,7 @@ switch pp
             0.06 0.12 0.05]';
         P_cntr = [0.2 NaN NaN
             0.04 0.016 NaN
-            0.35 0.2 0.15]';
+            0.35 0.15 0.15]';
                 FB_coords = [26.4 28 30.44 33.7];
         FB_height = [0.42];
                 FB = ['BFBF'];
@@ -74,11 +74,11 @@ end
 S_cntr = [7e-3 NaN NaN
             5e-3 5e-4 NaN
             0.06 0.05 0.05]';
-    P_cntr = [0.2 NaN NaN
+P_cntr = [0.2 NaN NaN
             0.04 0.016 NaN
             0.4 0.4 0.3]';
 
-P_clim_mag = 1200;
+P_clim_mag = 1200/(u_star_mean_global^3);
 P_cntr = P_clim_mag*P_cntr;
 
 x_ids = (raddis>x_bnds(1)) & (raddis<x_bnds(2));
@@ -131,8 +131,8 @@ for k = 1:2
     end
     set(gcf,'color','w','position',[7          41        1396         764])
     % uncomment to print
-%     update_figure_paper_size()
-%     print(sprintf('imgs/%s_%d_%d%s',fig_name{k},pp,window,mean_rm_str),'-dpdf')
+    update_figure_paper_size()
+    print(sprintf('imgs/%s_%d_%d%s',fig_name{k},pp,window,mean_rm_str),'-dpdf')
     
 end
 
@@ -158,8 +158,8 @@ hold on
 [c,h1] = contour(raddis,zc1,tot_P_plot,[1 1]*0,'w-','linewidth',3);
 set(gcf,'color','w','position',[428     4   902   300])
 % uncomment to print
-% update_figure_paper_size()
-% print(sprintf('imgs/totP_norm_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+update_figure_paper_size()
+print(sprintf('imgs/totP_norm_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 function [] = editFig(n,x_bnds,y_bnds)

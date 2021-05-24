@@ -1,5 +1,5 @@
-%%clear;close all;clc
-clear;clc
+clear;close all;clc
+% clear;clc
 
 polar = false;
 mean_rm_vec = false;
@@ -28,7 +28,7 @@ plt_totLRC = false;
 plt_graphAbs = false;
 
 
-u_star_mean_global = 0.9598; % mean of u_star from 1910, 2030, 2040
+u_star_mean_global = 15;% mean eddy velocity  0.9598; % mean of u_star from 1910, 2030, 2040
 y_star = 2000; % eddy length scale [m]
 norm_totP = u_star_mean_global.^3/y_star;
 %% Begin
@@ -45,20 +45,20 @@ for i = [5]
     switch i
         case 1
             tc_file = 'newiwrap-output-ku1-dz30m-rita9231740.mat';
-            pp = 1740
+            pp = 1740;
         case 2
             tc_file = 'newiwrap-output-ku1-dz30m-rita9222030.mat';
-            pp = 2030
+            pp = 2030;
         case 3
             tc_file = 'newiwrap-output-ku1-dz30m-rita9222140.mat';
-            pp = 2145
+            pp = 2145;
             %%tc_file2 = 'newiwrap-output-ku1-dz30m-rita9222150.mat';pp = 2145; %this represents a small portion of the total leg
         case 4
             tc_file = 'newiwrap-output-ku1-dz30m-rita9232050.mat';
-            pp = 2050
+            pp = 2050;
         case 5
             tc_file = 'newiwrap-output-ku1-dz30m-rita9221910.mat';
-            pp = 1910
+            pp = 1910;
     end
 
 

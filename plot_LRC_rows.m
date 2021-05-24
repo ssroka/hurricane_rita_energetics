@@ -61,6 +61,7 @@ for k = 1:length(vars)
             %             if (i==2) && (j==2)
             %                 continue
             %             end
+
             subplot(6,length(vars),sub2ind([4,6],k,count))
             Pro_2_plot = var(x_ids,y_ids,i,j)';
             plot_cntr(raddis(x_ids),zc1(y_ids),Pro_2_plot,x_bnds,y_bnds,clim_all)
@@ -113,8 +114,8 @@ end
 drawnow
 adjust_LRCTau_rows
 % uncomment to print
-% update_figure_paper_size()
-% print(sprintf('imgs/LRCTau_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
+update_figure_paper_size()
+print(sprintf('imgs/LRCTau_%d_%d%s',pp,window,mean_rm_str),'-dpdf')
 
 
 function [] = plot_cntr(raddis,zc1,tot_P,x_bnds,y_bnds,c_bnd,n_lvl)

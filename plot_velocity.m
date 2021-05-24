@@ -338,8 +338,8 @@ for i = 1:10
     end
     figure(i)
     % uncomment to print
-%     update_figure_paper_size()
-%     print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{i},window,mean_rm_str),'-dpdf')
+    update_figure_paper_size()
+    print(sprintf('imgs/%d_%s_%d%s',pp,fig_str{i},window,mean_rm_str),'-dpdf')
 end
 
 function [] = editFig(n,x_bnds,y_bnds)
