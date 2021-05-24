@@ -1,4 +1,4 @@
-trend = 1                      %1 is remove linear trend, 0 is don't remove
+trend = 1;                      %1 is remove linear trend, 0 is don't remove
 
 %%sa = 2;ea = 230;	%start/end index for along-track	
 %%level = 0.5;  %km
@@ -69,7 +69,7 @@ spec = cat(1,zero,asym);                %total spectrum
 
 if c == 1
 uspec = spec;           		%spectrum of u velocity field
-else c == 2
+else %c == 2
 vspec = spec;           		%spectrum of v velocity field
 end
 

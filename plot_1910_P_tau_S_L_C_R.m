@@ -204,8 +204,8 @@ set(gcf,'color','w','position',[7          41        1396         764])
 for i = 1:length(vars)
     figure(i)
     % uncomment to print
-%     update_figure_paper_size()
-%     print(sprintf('imgs/%d_%s_%d%s',pp,fig_name{i},window,mean_rm_str),'-dpdf')
+    update_figure_paper_size()
+    print(sprintf('imgs/%d_%s_%d%s',pp,fig_name{i},window,mean_rm_str),'-dpdf')
 end
 
 
